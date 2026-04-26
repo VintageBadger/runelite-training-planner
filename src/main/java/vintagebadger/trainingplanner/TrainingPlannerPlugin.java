@@ -10,31 +10,53 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.util.ImageUtil;
 
 import javax.inject.Inject;
+import java.awt.image.BufferedImage;
 
 @Slf4j
 @PluginDescriptor(
         name = "Training Planner"
 )
 public class TrainingPlannerPlugin  extends Plugin{
+    private static final BufferedImage ICON = ImageUtil.loadImageResource(TrainingPlannerPlugin.class, "training-planner.png");
 
     @Inject
     private Client client;
+    @Inject
+    private ClientToolbar clientToolbar;
 
     @Inject
     private TrainingPlannerConfig config;
+
+    private NavigationButton navButton;
+    private TrainingPlannerPanel panel;
 
     @Override
     protected void startUp() throws Exception
     {
         log.debug("Training Planner started!");
+        panel = new TrainingPlannerPanel(client);
+        navButton = NavigationButton.builder()
+                .tooltip("Training Planner")
+                .icon(ICON)
+                .priority(1000)
+                .panel(panel)
+                .build();
+
+        clientToolbar.addNavigation(navButton);
     }
 
     @Override
     protected void shutDown() throws Exception
     {
         log.debug("Training Planner stopped!");
+        clientToolbar.removeNavigation(navButton);
+        panel = null;
+        navButton = null;
     }
 
     @Subscribe
