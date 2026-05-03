@@ -3,7 +3,11 @@ package vintagebadger.trainingplanner
 import lombok.extern.slf4j.Slf4j
 import net.runelite.api.Client
 import net.runelite.client.ui.PluginPanel
+import org.slf4j.LoggerFactory
 import vintagebadger.trainingplanner.models.Skill
+import vintagebadger.trainingplanner.models.TrainingPlan
+import vintagebadger.trainingplanner.models.TrainingPlanList
+import javax.swing.JButton
 import javax.swing.JComboBox
 import javax.swing.JLabel
 
@@ -12,6 +16,7 @@ class TrainingPlannerPanel(
     client: Client,
     config: TrainingPlannerConfig,
     ) : PluginPanel() {
+    private val log = LoggerFactory.getLogger(TrainingPlannerPanel::class.java)
     val calculatorUi = LevelCalculatorUi()
 
     /*
@@ -30,5 +35,28 @@ class TrainingPlannerPanel(
         add(dropdown)
 
         add(calculatorUi)
+
+        val addButton = JButton("Add Plan").apply {
+            addActionListener {
+                val selectedSkill = dropdown.selectedItem as? Skill ?: return@addActionListener
+                val startLevel = calculatorUi.getStartLevel() ?: return@addActionListener
+                val endLevel = calculatorUi.getEndLevel() ?: return@addActionListener
+
+                val newPlan = TrainingPlan(
+                    skill = selectedSkill.name,
+                    startLevel = startLevel,
+                    endLevel = endLevel
+                )
+
+                val existingPlans = config.getTrainingPlans().plans
+                val updatedPlans = existingPlans + newPlan
+                config.setTrainingPlans(TrainingPlanList(updatedPlans))
+
+                // Verify immediate read-back
+                val saved = config.getTrainingPlans()
+                log.debug("After save, plans count: ${saved.plans.size}")
+            }
+        }
+        add(addButton)
     }
 }
