@@ -1,34 +1,31 @@
-package vintagebadger.trainingplanner;
+package vintagebadger.trainingplanner
 
-import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Client;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.ui.PluginPanel;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import lombok.extern.slf4j.Slf4j
+import net.runelite.api.Client
+import net.runelite.client.ui.PluginPanel
+import javax.swing.JComboBox
+import javax.swing.JLabel
 
 @Slf4j
-public class TrainingPlannerPanel extends PluginPanel {
-    public TrainingPlannerPanel(Client client){
-        super();
-        setBorder(new EmptyBorder(10, 10, 10, 10));
-        setLayout(new GridBagLayout());
+class TrainingPlannerPanel(client: Client) : PluginPanel() {
+    val calculatorUi = LevelCalculatorUi()
 
-        final JComboBox<String> dropdown = new JComboBox<>();
-        dropdown.setMaximumRowCount(3);
-        dropdown.addItem("herby");
-        dropdown.addItem("smithy");
-        dropdown.addItem("cooky");
+    /*
+    RuneLite applies sane defaults since we're extending `PluginPanel` and not a generic `JPanel`.
+    Default lay seems to be a vertical list by default, with a border of 6 pixels for spacing.
 
-        // create the screen
-        final GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.gridy = 0;
+    Calling "add", adds a swing element to the ui, following whatever layout was set for this pannel.
+    */
+    init {
+        add(JLabel("Training Planner"))
+        add(JLabel("Add a plan"))
 
-        add(dropdown, c);
+        // for now, these are just a list of strings, but they can be any object
+        // in the future we will probably make this a data class to store extra information
+        val skills = arrayOf("herby", "smithy", "cooky")
+        val dropdown = JComboBox(skills)
+        add(dropdown)
+
+        add(calculatorUi)
     }
 }
