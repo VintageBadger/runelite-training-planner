@@ -1,4 +1,4 @@
-package vintagebadger.trainingplanner.modals
+package vintagebadger.trainingplanner.models
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

@@ -3,7 +3,7 @@ package vintagebadger.trainingplanner
 import lombok.extern.slf4j.Slf4j
 import net.runelite.api.Client
 import net.runelite.client.ui.PluginPanel
-import vintagebadger.trainingplanner.modals.Skill
+import vintagebadger.trainingplanner.models.Skill
 import javax.swing.JComboBox
 import javax.swing.JLabel
 

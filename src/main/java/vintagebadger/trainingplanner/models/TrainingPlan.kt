@@ -1,4 +1,4 @@
-package vintagebadger.trainingplanner.modals
+package vintagebadger.trainingplanner.models
 
 /**Character based, one skill-one training method plan
  * */

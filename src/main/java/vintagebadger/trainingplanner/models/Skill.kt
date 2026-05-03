@@ -1,4 +1,4 @@
-package vintagebadger.trainingplanner.modals
+package vintagebadger.trainingplanner.models
 
 enum class Skill(val displayName: String) {
     HERBLORE("Herblore"),

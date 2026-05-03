@@ -1,6 +1,6 @@
 package vintagebadger.trainingplanner;
 
-import vintagebadger.trainingplanner.modals.TrainingPlanList;
+import vintagebadger.trainingplanner.models.TrainingPlanList;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
