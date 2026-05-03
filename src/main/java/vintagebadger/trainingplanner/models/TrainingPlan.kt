@@ -28,7 +28,7 @@ data class TrainingStep(
     val name: String = "",
     val skill: String = "",
     val level: Int = 0,
-    val xp: Int = 0,
+    val xp: Double = 0.0,
     val input: List<ItemReference> = emptyList(),
     val output: List<ItemReference> = emptyList(),
 )
