@@ -29,8 +29,6 @@ class TrainingPlannerPanel(
         add(JLabel("Training Planner"))
         add(JLabel("Add a plan"))
 
-        // for now, these are just a list of strings, but they can be any object
-        // in the future we will probably make this a data class to store extra information
         val dropdown = JComboBox(Skill.entries.toTypedArray())
         add(dropdown)
 
@@ -42,6 +40,7 @@ class TrainingPlannerPanel(
                 val startLevel = calculatorUi.getStartLevel() ?: return@addActionListener
                 val endLevel = calculatorUi.getEndLevel() ?: return@addActionListener
 
+                //TODO: will redo UI to update TrainingPlans instead of always adding
                 val newPlan = TrainingPlan(
                     skill = selectedSkill.name,
                     startLevel = startLevel,

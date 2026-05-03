@@ -1,6 +1,6 @@
 package vintagebadger.trainingplanner.models
 
-/**Character based, one skill-one training method plan
+/**Character based, one skill one training method plan
  * */
 data class TrainingPlan(
     val skill: String = "",
