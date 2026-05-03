@@ -32,3 +32,5 @@ build
 nbactions.xml
 nb-configuration.xml
 nbproject/
+/gradle/wrapper/gradle-wrapper.properties
+/src/test/resources/logback-test.xml
