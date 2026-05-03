@@ -3,11 +3,15 @@ package vintagebadger.trainingplanner
 import lombok.extern.slf4j.Slf4j
 import net.runelite.api.Client
 import net.runelite.client.ui.PluginPanel
+import vintagebadger.trainingplanner.modals.Skill
 import javax.swing.JComboBox
 import javax.swing.JLabel
 
 @Slf4j
-class TrainingPlannerPanel(client: Client) : PluginPanel() {
+class TrainingPlannerPanel(
+    client: Client,
+    config: TrainingPlannerConfig,
+    ) : PluginPanel() {
     val calculatorUi = LevelCalculatorUi()
 
     /*
@@ -22,8 +26,7 @@ class TrainingPlannerPanel(client: Client) : PluginPanel() {
 
         // for now, these are just a list of strings, but they can be any object
         // in the future we will probably make this a data class to store extra information
-        val skills = arrayOf("herby", "smithy", "cooky")
-        val dropdown = JComboBox(skills)
+        val dropdown = JComboBox(Skill.entries.toTypedArray())
         add(dropdown)
 
         add(calculatorUi)

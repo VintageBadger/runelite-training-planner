@@ -39,7 +39,7 @@ public class TrainingPlannerPlugin  extends Plugin{
     protected void startUp() throws Exception
     {
         log.debug("Training Planner started!");
-        panel = new TrainingPlannerPanel(client);
+        panel = new TrainingPlannerPanel(client, config);
         navButton = NavigationButton.builder()
                 .tooltip("Training Planner")
                 .icon(ICON)
@@ -64,7 +64,7 @@ public class TrainingPlannerPlugin  extends Plugin{
     {
         if (gameStateChanged.getGameState() == GameState.LOGGED_IN)
         {
-            client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Training Planner says " + config.greeting(), null);
+            client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Training Planner plugin started.", null);
         }
     }
 
