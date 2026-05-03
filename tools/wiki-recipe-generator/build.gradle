@@ -1,0 +1,32 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "com.squareup.okhttp3:okhttp:4.12.0"
+    implementation "com.google.code.gson:gson:2.11.0"
+}
+
+application {
+    mainClass = 'vintagebadger.trainingplanner.wiki.MainKt'
+}
+
+tasks.named('run') {
+    workingDir = rootProject.projectDir
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(11)
+}
+
+kotlin {
+    jvmToolchain(11)
+}
