@@ -19,6 +19,8 @@ import javax.swing.JPanel
 import javax.swing.JTextField
 import javax.swing.border.EmptyBorder
 import javax.swing.border.MatteBorder
+import javax.swing.event.DocumentEvent
+import javax.swing.event.DocumentListener
 
 class TrainingPlanCard(
     private val plan: TrainingPlan,
@@ -95,7 +97,6 @@ class TrainingPlanCard(
         }
 
         if (isEditing) {
-            rightPanel.add(buildSaveButton())
             rightPanel.add(buildCancelButton())
         } else {
             rightPanel.add(buildEditButton())
@@ -104,14 +105,6 @@ class TrainingPlanCard(
 
         headerPanel.add(leftPanel, BorderLayout.CENTER)
         headerPanel.add(rightPanel, BorderLayout.EAST)
-    }
-
-    private fun buildSaveButton() = JButton("Save").apply {
-        font = FontManager.getRunescapeFont()
-        foreground = Color.WHITE
-        background = ColorScheme.BRAND_ORANGE
-        border = EmptyBorder(4, 8, 4, 8)
-        addActionListener { savePlan() }
     }
 
     private fun buildCancelButton() = JButton("Cancel").apply {
@@ -217,6 +210,12 @@ class TrainingPlanCard(
             caretColor = Color.WHITE
         }
 
+        nameField.document.addDocumentListener(object : DocumentListener {
+            override fun insertUpdate(e: DocumentEvent) = autoSaveMethod(nameField.text.trim())
+            override fun removeUpdate(e: DocumentEvent) = autoSaveMethod(nameField.text.trim())
+            override fun changedUpdate(e: DocumentEvent) {}
+        })
+
         val label = JLabel("Method Name:").apply {
             font = FontManager.getRunescapeFont()
             foreground = ColorScheme.LIGHT_GRAY_COLOR
@@ -224,19 +223,12 @@ class TrainingPlanCard(
 
         contentPanel.add(label)
         contentPanel.add(nameField)
+    }
 
-        contentPanel.add(JButton("Save").apply {
-            font = FontManager.getRunescapeFont()
-            foreground = Color.WHITE
-            background = ColorScheme.BRAND_ORANGE
-            addActionListener {
-                val newName = nameField.text.trim()
-                if (newName.isNotBlank()) {
-                    val updatedMethod = plan.trainingMethod.copy(name = newName)
-                    savePlan(plan.copy(trainingMethod = updatedMethod))
-                }
-            }
-        })
+    private fun autoSaveMethod(newName: String) {
+        if (newName.isBlank()) return
+        val updatedMethod = plan.trainingMethod.copy(name = newName)
+        savePlan(plan.copy(trainingMethod = updatedMethod))
     }
 
     private fun addInfoRow(label: String, value: String) {
