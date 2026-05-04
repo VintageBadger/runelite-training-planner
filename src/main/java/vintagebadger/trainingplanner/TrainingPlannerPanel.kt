@@ -1,6 +1,7 @@
 package vintagebadger.trainingplanner
 
 import net.runelite.api.Client
+import net.runelite.client.game.ItemManager
 import net.runelite.client.ui.ColorScheme
 import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.PluginPanel
@@ -27,10 +28,11 @@ import java.awt.Dimension
 class TrainingPlannerPanel(
     client: Client,
     private val config: TrainingPlannerConfig,
+    private val itemManager: ItemManager,
 ) : PluginPanel() {
 
     private val calculatorUi = LevelCalculatorUi()
-    private val methodList = TrainingMethodList(::tryAutoSave)
+    private val methodList = TrainingMethodList(itemManager, ::tryAutoSave)
 
     private lateinit var savedPlansPanel: JPanel
     private lateinit var skillDropdown: JComboBox<Skill?>
@@ -175,7 +177,7 @@ class TrainingPlannerPanel(
                         it.endLevel == plan.endLevel &&
                         it.trainingMethod.name == plan.trainingMethod.name
                 }
-                val card = TrainingPlanCard(plan, originalIndex, config, ::onPlanChanged)
+                val card = TrainingPlanCard(plan, originalIndex, config, itemManager, ::onPlanChanged)
                 card.alignmentX = CENTER_ALIGNMENT
                 card.maximumSize = Dimension(Int.MAX_VALUE, Int.MAX_VALUE)
                 savedPlansPanel.add(card)

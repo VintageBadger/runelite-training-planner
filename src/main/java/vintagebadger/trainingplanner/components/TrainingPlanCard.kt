@@ -1,5 +1,6 @@
 package vintagebadger.trainingplanner.components
 
+import net.runelite.client.game.ItemManager
 import net.runelite.client.ui.ColorScheme
 import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.FontManager
@@ -26,6 +27,7 @@ class TrainingPlanCard(
     private val plan: TrainingPlan,
     private val planIndex: Int,
     private val config: TrainingPlannerConfig,
+    private val itemManager: ItemManager,
     private val onPlanChanged: () -> Unit,
 ) : JPanel() {
 
@@ -174,8 +176,31 @@ class TrainingPlanCard(
         }
 
         if (method.output.isNotEmpty()) {
-            val outputStr = method.output.joinToString(", ") { "${it.name} x${it.quantity}" }
-            addInfoRow("Output:", outputStr)
+            val outputRow = JPanel().apply {
+                layout = BoxLayout(this, BoxLayout.X_AXIS)
+                background = ColorScheme.DARK_GRAY_COLOR
+                isOpaque = false
+            }
+            val outputLabel = JLabel("Output:").apply {
+                font = FontManager.getRunescapeBoldFont()
+                foreground = Color.WHITE
+            }
+            outputRow.add(outputLabel)
+            method.output.forEach { itemRef ->
+                if (itemRef.id > 0) {
+                    val iconLabel = JLabel().apply {
+                        border = EmptyBorder(0, 4, 0, 0)
+                    }
+                    val img = itemManager.getImage(itemRef.id)
+                    img.addTo(iconLabel)
+                    outputRow.add(iconLabel)
+                }
+                outputRow.add(JLabel("${itemRef.name} x${itemRef.quantity}  ").apply {
+                    font = FontManager.getRunescapeFont()
+                    foreground = ColorScheme.LIGHT_GRAY_COLOR
+                })
+            }
+            contentPanel.add(outputRow)
         }
 
         if (method.steps.isNotEmpty()) {

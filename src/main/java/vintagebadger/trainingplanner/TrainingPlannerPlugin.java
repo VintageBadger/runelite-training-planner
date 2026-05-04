@@ -8,6 +8,7 @@ import net.runelite.api.GameState;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
@@ -28,7 +29,8 @@ public class TrainingPlannerPlugin  extends Plugin{
     private Client client;
     @Inject
     private ClientToolbar clientToolbar;
-
+    @Inject
+    private ItemManager itemManager;
     @Inject
     private TrainingPlannerConfig config;
 
@@ -39,7 +41,7 @@ public class TrainingPlannerPlugin  extends Plugin{
     protected void startUp() throws Exception
     {
         log.debug("Training Planner started!");
-        panel = new TrainingPlannerPanel(client, config);
+        panel = new TrainingPlannerPanel(client, config, itemManager);
         navButton = NavigationButton.builder()
                 .tooltip("Training Planner")
                 .icon(ICON)

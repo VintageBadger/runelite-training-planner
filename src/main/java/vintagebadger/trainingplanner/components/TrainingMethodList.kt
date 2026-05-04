@@ -1,5 +1,6 @@
 package vintagebadger.trainingplanner.components
 
+import net.runelite.client.game.ItemManager
 import net.runelite.client.ui.ColorScheme
 import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.FontManager
@@ -11,6 +12,7 @@ import javax.swing.border.EmptyBorder
 import kotlin.math.ceil
 
 class TrainingMethodList(
+    private val itemManager: ItemManager,
     private val onMethodSelected: () -> Unit,
 ) : JPanel() {
 
@@ -52,10 +54,26 @@ class TrainingMethodList(
 
     private fun createRow(method: TrainingMethod, expRequired: Int?): JPanel {
         val row = JPanel().apply {
-            layout = DynamicGridLayout(0, 1)
+            layout = javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS)
             background = ColorScheme.DARKER_GRAY_COLOR
             border = EmptyBorder(4, 8, 4, 8)
             isOpaque = true
+
+            val outputId = method.output.firstOrNull()?.id
+            if (outputId != null && outputId > 0) {
+                val iconLabel = JLabel().apply {
+                    border = EmptyBorder(0, 0, 0, 0)
+                }
+                val img = itemManager.getImage(outputId)
+                img.addTo(iconLabel)
+                add(iconLabel)
+            }
+
+            val textPanel = JPanel().apply {
+                layout = DynamicGridLayout(0, 1)
+                background = ColorScheme.DARKER_GRAY_COLOR
+                isOpaque = false
+            }
 
             val itemName = method.output.firstOrNull()?.name ?: "Unknown"
             val craftCount = if (expRequired != null && expRequired > 0 && method.totalXp > 0) {
@@ -80,8 +98,9 @@ class TrainingMethodList(
                 foreground = ColorScheme.LIGHT_GRAY_COLOR
             }
 
-            add(topLabel)
-            add(subLabel)
+            textPanel.add(topLabel)
+            textPanel.add(subLabel)
+            add(textPanel)
 
             addMouseListener(object : java.awt.event.MouseAdapter() {
                 override fun mouseClicked(e: java.awt.event.MouseEvent) {
