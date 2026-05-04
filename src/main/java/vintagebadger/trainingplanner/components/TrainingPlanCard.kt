@@ -109,11 +109,12 @@ class TrainingPlanCard(
         headerPanel.add(rightPanel, BorderLayout.EAST)
     }
 
-    private fun buildCancelButton() = JButton("Cancel").apply {
-        font = FontManager.getRunescapeFont()
+    private fun buildCancelButton() = JButton("✕").apply {
+        font = FontManager.getRunescapeBoldFont()
         foreground = ColorScheme.LIGHT_GRAY_COLOR
         background = ColorScheme.DARK_GRAY_COLOR
-        border = EmptyBorder(4, 8, 4, 8)
+        border = EmptyBorder(4, 6, 4, 6)
+        toolTipText = "Cancel"
         addActionListener {
             isEditing = false
             buildHeader()
@@ -123,11 +124,12 @@ class TrainingPlanCard(
         }
     }
 
-    private fun buildEditButton() = JButton("Edit").apply {
-        font = FontManager.getRunescapeFont()
+    private fun buildEditButton() = JButton("✎").apply {
+        font = FontManager.getRunescapeBoldFont()
         foreground = ColorScheme.LIGHT_GRAY_COLOR
         background = ColorScheme.DARK_GRAY_COLOR
-        border = EmptyBorder(4, 8, 4, 8)
+        border = EmptyBorder(4, 6, 4, 6)
+        toolTipText = "Edit"
         addActionListener {
             isEditing = true
             buildHeader()
@@ -137,11 +139,12 @@ class TrainingPlanCard(
         }
     }
 
-    private fun buildDeleteButton() = JButton("Delete").apply {
-        font = FontManager.getRunescapeFont()
+    private fun buildDeleteButton() = JButton("🗑").apply {
+        font = FontManager.getRunescapeBoldFont()
         foreground = Color.RED
         background = ColorScheme.DARK_GRAY_COLOR
-        border = EmptyBorder(4, 8, 4, 8)
+        border = EmptyBorder(4, 6, 4, 6)
+        toolTipText = "Delete"
         addActionListener { deletePlan() }
     }
 
