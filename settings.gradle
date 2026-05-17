@@ -11,4 +11,4 @@ plugins {
 rootProject.name = 'runelite-training-planner'
 
 include ':plugin'
-include ':wiki2'
+include ':wiki'

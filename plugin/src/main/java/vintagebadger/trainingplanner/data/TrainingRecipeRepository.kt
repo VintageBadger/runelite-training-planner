@@ -3,8 +3,8 @@ package vintagebadger.trainingplanner.data
 import com.google.gson.Gson
 import org.slf4j.LoggerFactory
 import vintagebadger.trainingplanner.models.Skill
-import vintagebadger.trainingplanner.wiki2.OutputItemRecipes
-import vintagebadger.trainingplanner.wiki2.RecipeGraph
+import vintagebadger.trainingplanner.wiki.OutputItemRecipes
+import vintagebadger.trainingplanner.wiki.RecipeGraph
 import java.io.InputStreamReader
 
 class TrainingRecipeRepository(

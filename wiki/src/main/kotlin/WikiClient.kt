@@ -1,4 +1,4 @@
-package vintagebadger.trainingplanner.wiki2
+package vintagebadger.trainingplanner.wiki
 
 import com.google.gson.JsonParser
 import okhttp3.HttpUrl.Companion.toHttpUrl

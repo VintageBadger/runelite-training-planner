@@ -1,4 +1,4 @@
-package vintagebadger.trainingplanner.wiki2
+package vintagebadger.trainingplanner.wiki
 
 internal data class ItemIdentity(
     val id: Int?,

@@ -1,6 +1,6 @@
 package vintagebadger.trainingplanner.models
 
-import vintagebadger.trainingplanner.wiki2.OutputItemRecipes
+import vintagebadger.trainingplanner.wiki.OutputItemRecipes
 
 /**Character based, one skill one training method plan
  * */

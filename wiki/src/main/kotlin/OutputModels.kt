@@ -1,4 +1,4 @@
-package vintagebadger.trainingplanner.wiki2
+package vintagebadger.trainingplanner.wiki
 
 data class RecipeGraph(
     val version: Int = 1,

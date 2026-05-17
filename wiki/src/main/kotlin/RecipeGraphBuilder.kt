@@ -1,4 +1,4 @@
-package vintagebadger.trainingplanner.wiki2
+package vintagebadger.trainingplanner.wiki
 
 private data class ResolvedIngredient(
     val id: Int,

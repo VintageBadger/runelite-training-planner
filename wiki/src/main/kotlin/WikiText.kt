@@ -1,4 +1,4 @@
-package vintagebadger.trainingplanner.wiki2
+package vintagebadger.trainingplanner.wiki
 
 internal fun findTemplates(text: String, templateName: String): List<String> {
     val results = mutableListOf<String>()

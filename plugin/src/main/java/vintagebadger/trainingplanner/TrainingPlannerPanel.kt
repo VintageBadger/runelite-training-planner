@@ -12,7 +12,7 @@ import vintagebadger.trainingplanner.data.TrainingRecipeRepository
 import vintagebadger.trainingplanner.models.Skill
 import vintagebadger.trainingplanner.models.TrainingPlan
 import vintagebadger.trainingplanner.models.TrainingPlanList
-import vintagebadger.trainingplanner.wiki2.OutputItemRecipes
+import vintagebadger.trainingplanner.wiki.OutputItemRecipes
 import java.awt.BorderLayout
 import javax.swing.DefaultListCellRenderer
 import javax.swing.JComboBox

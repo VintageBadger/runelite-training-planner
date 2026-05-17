@@ -5,7 +5,7 @@ import net.runelite.client.ui.ColorScheme
 import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.FontManager
 import vintagebadger.trainingplanner.models.Skill
-import vintagebadger.trainingplanner.wiki2.OutputItemRecipes
+import vintagebadger.trainingplanner.wiki.OutputItemRecipes
 import java.text.NumberFormat
 import javax.swing.JLabel
 import javax.swing.JPanel
