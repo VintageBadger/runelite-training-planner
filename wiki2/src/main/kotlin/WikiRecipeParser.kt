@@ -5,7 +5,7 @@ internal data class ItemIdentity(
 
 internal data class RecipeRequirement(
     val method: String,
-    val xp: List<SkillXp>,
+    val skills: List<SkillRequirement>,
     val items: List<IngredientRequirement>
 )
 
@@ -73,7 +73,7 @@ internal fun parseRecipeRequirements(wikitext: String, targetName: String): List
             } else {
                 RecipeRequirement(
                     method = method,
-                    xp = parseSkillXp(params, method),
+                    skills = parseSkillRequirements(params, method),
                     items = items
                 )
             }
@@ -81,29 +81,66 @@ internal fun parseRecipeRequirements(wikitext: String, targetName: String): List
         .filterNotNull()
 }
 
-private fun parseSkillXp(params: Map<String, String>, method: String): List<SkillXp> {
-    return params.keys
-        .mapNotNull { key -> Regex("""^skill(\d+)$""").matchEntire(key)?.groupValues?.get(1)?.toInt() }
+private fun parseSkillRequirements(params: Map<String, String>, method: String): List<SkillRequirement> {
+    val skillNumbers = params.keys
+        .mapNotNull { key -> Regex("""^skill\s*(\d+)$""").matchEntire(key)?.groupValues?.get(1)?.toInt() }
+        .plus(if ("skill" in params) listOf(1) else emptyList())
         .distinct()
         .sorted()
-        .mapNotNull { number ->
-            val skill = params["skill$number"]
-                ?.let(::cleanWikiText)
-                ?.takeIf { it.isNotBlank() }
-                ?: return@mapNotNull null
-            val rawAmount = params["skill${number}exp"]
-                ?.trim()
-                ?.takeIf { it.isNotBlank() }
-                ?: return@mapNotNull null
-            val amount = rawAmount.replace(",", "").toDoubleOrNull()
 
-            if (amount == null) {
-                System.err.println("Warning: skipping XP '$rawAmount' for recipe '$method' because it is not a number")
-                null
+    return skillNumbers.mapNotNull { number ->
+        val skill = (firstParam(params, "skill$number", "skill $number")
+            ?: if (number == 1) firstParam(params, "skill") else null
+            )
+            ?.let(::cleanWikiText)
+            ?.takeIf { it.isNotBlank() }
+            ?: return@mapNotNull null
+        val level = firstParam(
+            params,
+            "skill${number}lvl",
+            "skill${number}level",
+            "skill $number lvl",
+            "skill $number level",
+        )
+            ?: if (number == 1) {
+                firstParam(params, "skilllvl", "skilllevel", "skill lvl", "skill level", "level", "level1", "level 1")
             } else {
-                SkillXp(skill = skill, amount = amount)
+                null
             }
+        val rawXp = firstParam(
+            params,
+            "skill${number}exp",
+            "skill $number exp",
+            "skill${number}xp",
+            "skill $number xp",
+        )
+            ?: if (number == 1) {
+                firstParam(params, "skillxp", "skill xp", "xp", "xp1", "experience", "experience1", "exp", "exp1")
+            } else {
+                null
+            }
+        val xp = rawXp
+            ?.trim()
+            ?.takeIf { it.isNotBlank() }
+            ?.replace(",", "")
+            ?.toDoubleOrNull()
+
+        if (rawXp != null && xp == null) {
+            System.err.println("Warning: skipping XP '$rawXp' for recipe '$method' because it is not a number")
         }
+
+        xp?.let {
+            SkillRequirement(
+                skill = skill,
+                level = level?.trim()?.replace(",", "")?.toIntOrNull() ?: 0,
+                xp = it
+            )
+        }
+    }
+}
+
+private fun firstParam(params: Map<String, String>, vararg keys: String): String? {
+    return keys.firstNotNullOfOrNull { params[it] }
 }
 
 internal fun warnIfRecipesTargetOtherOutputs(wikitext: String, targetName: String) {

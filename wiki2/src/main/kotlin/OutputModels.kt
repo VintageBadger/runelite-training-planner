@@ -11,13 +11,14 @@ data class OutputItemRecipes(
 
 data class FlatRecipe(
     val method: String,
-    val xp: List<SkillXp>,
+    val skills: List<SkillRequirement>,
     val requires: List<IngredientRef>
 )
 
-data class SkillXp(
+data class SkillRequirement(
     val skill: String,
-    val amount: Double
+    val level: Int,
+    val xp: Double
 )
 
 data class IngredientRef(

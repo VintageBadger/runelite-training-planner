@@ -58,7 +58,7 @@ internal class RecipeGraphBuilder(
 
             FlatRecipe(
                 method = recipe.method,
-                xp = recipe.xp,
+                skills = recipe.skills,
                 requires = resolvedIngredients.map {
                     IngredientRef(
                         id = it.id,

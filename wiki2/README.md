@@ -33,7 +33,7 @@ The output shape is:
       "methods": [
         {
           "method": "Cooking range",
-          "xp": [{ "skill": "Cooking", "amount": 180.0 }],
+          "skills": [{ "skill": "Cooking", "level": 0, "xp": 180.0 }],
           "requires": [
             { "id": 1889, "name": "Uncooked cake", "quantity": 1 }
           ]
@@ -46,7 +46,7 @@ The output shape is:
       "methods": [
         {
           "method": "Cooking",
-          "xp": [{ "skill": "Cooking", "amount": 0.0 }],
+          "skills": [{ "skill": "Cooking", "level": 0, "xp": 0.0 }],
           "requires": [
             { "id": 1887, "name": "Cake tin", "quantity": 1 },
             { "id": 1944, "name": "Egg", "quantity": 1 },
@@ -60,6 +60,6 @@ The output shape is:
 }
 ```
 
-Each entry in `recipes` is an output item. Each method only lists direct requirements, including the resolved OSRS Wiki item name for each ingredient.
+Each entry in `recipes` is an output item. Each method only lists direct requirements, including the resolved OSRS Wiki item name for each ingredient. The `skills` entries pair each wiki recipe skill with its own level requirement and XP reward.
 
 Items with no craftable recipe are omitted from `recipes`.
