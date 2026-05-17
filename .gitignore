@@ -26,6 +26,7 @@ replay_pid*
 
 .gradle
 build
+**/build/
 .idea/
 .project
 .settings/
@@ -35,4 +36,4 @@ nb-configuration.xml
 nbproject/
 /gradle/wrapper/gradle-wrapper.properties
 /src/test/resources/logback-test.xml
-tools/wiki-recipe-generator/.wiki-cache/
+wiki/.wiki-cache/
