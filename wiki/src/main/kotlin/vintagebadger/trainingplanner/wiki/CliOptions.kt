@@ -16,7 +16,7 @@ data class CliOptions(
             val explicitTargets = mutableListOf<String>()
             var skill: String? = null
             var output: Path? = null
-            var cacheDir = Paths.get("tools/wiki-recipe-generator/.wiki-cache")
+            var cacheDir = Paths.get("wiki/.wiki-cache")
             var refreshCache = false
             var maxDepth = 12
 
@@ -60,7 +60,7 @@ data class CliOptions(
             println(
                 """
                 Usage:
-                  ./gradlew :tools:wiki-recipe-generator:run --args='--skill Herblore --target "Prayer potion" --output src/main/java/vintagebadger/trainingplanner/data/HerbloreMethods.kt'
+                  ./gradlew :wiki:run --args='--skill Herblore --target "Prayer potion" --output src/main/java/vintagebadger/trainingplanner/data/HerbloreMethods.kt'
 
                 Options:
                   --target <title>       Add one wiki item target. Repeatable.
