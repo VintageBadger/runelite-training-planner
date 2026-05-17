@@ -35,3 +35,4 @@ nb-configuration.xml
 nbproject/
 /gradle/wrapper/gradle-wrapper.properties
 /src/test/resources/logback-test.xml
+tools/wiki-recipe-generator/.wiki-cache/
