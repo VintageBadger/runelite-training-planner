@@ -170,7 +170,7 @@ class TrainingPlannerPanel(
                         it.endLevel == plan.endLevel &&
                         it.trainingMethod.id == plan.trainingMethod.id
                 }
-                val card = TrainingPlanCard(plan, originalIndex, config, itemManager, ::onPlanChanged)
+                val card = TrainingPlanCard(plan, originalIndex, config, itemManager, recipeRepository, ::onPlanChanged)
                 card.alignmentX = CENTER_ALIGNMENT
                 card.maximumSize = Dimension(Int.MAX_VALUE, Int.MAX_VALUE)
                 savedPlansPanel.add(card)

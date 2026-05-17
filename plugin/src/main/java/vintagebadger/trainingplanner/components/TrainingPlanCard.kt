@@ -6,9 +6,12 @@ import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.FontManager
 import net.runelite.client.util.SwingUtil.removeButtonDecorations
 import vintagebadger.trainingplanner.TrainingPlannerConfig
+import vintagebadger.trainingplanner.data.ResolvedRecipeStep
+import vintagebadger.trainingplanner.data.TrainingRecipeRepository
 import vintagebadger.trainingplanner.models.Skill
 import vintagebadger.trainingplanner.models.TrainingPlan
 import vintagebadger.trainingplanner.models.TrainingPlanList
+import vintagebadger.trainingplanner.wiki.IngredientRef
 import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Dimension
@@ -28,6 +31,7 @@ class TrainingPlanCard(
     private val planIndex: Int,
     private val config: TrainingPlannerConfig,
     private val itemManager: ItemManager,
+    private val recipeRepository: TrainingRecipeRepository,
     private val onPlanChanged: () -> Unit,
 ) : JPanel() {
 
@@ -207,34 +211,90 @@ class TrainingPlanCard(
         })
         contentPanel.add(outputRow)
 
-        if (recipe != null && recipe.requires.isNotEmpty()) {
-            val requirementsLabel = JLabel("Requires:").apply {
+        val steps = selectedSkill?.let { recipeRepository.resolveSteps(method, it) }.orEmpty()
+        if (steps.isNotEmpty()) {
+            val stepsLabel = JLabel("Steps:").apply {
                 font = FontManager.getRunescapeBoldFont()
                 foreground = Color.WHITE
                 border = EmptyBorder(8, 0, 4, 0)
             }
-            contentPanel.add(requirementsLabel)
+            contentPanel.add(stepsLabel)
 
-            recipe.requires.forEach { ingredient ->
-                val row = JPanel().apply {
-                    layout = BoxLayout(this, BoxLayout.X_AXIS)
-                    background = ColorScheme.DARK_GRAY_COLOR
-                    isOpaque = false
-                }
-                if (ingredient.id > 0) {
-                    val iconLabel = JLabel().apply {
-                        border = EmptyBorder(0, 4, 0, 0)
-                    }
-                    val img = itemManager.getImage(ingredient.id)
-                    img.addTo(iconLabel)
-                    row.add(iconLabel)
-                }
-                row.add(JLabel("${ingredient.name} x${ingredient.quantity}").apply {
-                    font = FontManager.getRunescapeSmallFont()
-                    foreground = ColorScheme.LIGHT_GRAY_COLOR
-                })
-                contentPanel.add(row)
+            steps.forEachIndexed { index, step ->
+                addStep(index, step)
             }
+        } else if (recipe != null && recipe.requires.isNotEmpty()) {
+            addRequirements(recipe.requires)
+        }
+    }
+
+    private fun addStep(index: Int, step: ResolvedRecipeStep) {
+        val stepText = buildString {
+            append("${index + 1}. ${step.outputName} x${step.outputQuantity}")
+            if (step.recipeMethod.isNotBlank()) {
+                append(" (${step.recipeMethod})")
+            }
+            if (step.xp > 0) {
+                append(" - ${NumberFormat.getNumberInstance().format(step.xp)} XP")
+            }
+            if (step.level > 0) {
+                append(" [Lvl ${step.level}]")
+            }
+        }
+        val row = JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.X_AXIS)
+            background = ColorScheme.DARK_GRAY_COLOR
+            isOpaque = false
+        }
+        if (step.outputId > 0) {
+            val iconLabel = JLabel().apply {
+                border = EmptyBorder(0, 4, 0, 0)
+            }
+            val img = itemManager.getImage(step.outputId)
+            img.addTo(iconLabel)
+            row.add(iconLabel)
+        }
+        row.add(JLabel(stepText).apply {
+            font = FontManager.getRunescapeSmallFont()
+            foreground = ColorScheme.LIGHT_GRAY_COLOR
+        })
+        contentPanel.add(row)
+
+        if (step.requires.isNotEmpty()) {
+            contentPanel.add(JLabel("   Requires: ${step.requires.joinToString(", ") { "${it.name} x${it.quantity}" }}").apply {
+                font = FontManager.getRunescapeSmallFont()
+                foreground = ColorScheme.LIGHT_GRAY_COLOR
+            })
+        }
+    }
+
+    private fun addRequirements(requirements: List<IngredientRef>) {
+        val requirementsLabel = JLabel("Requires:").apply {
+            font = FontManager.getRunescapeBoldFont()
+            foreground = Color.WHITE
+            border = EmptyBorder(8, 0, 4, 0)
+        }
+        contentPanel.add(requirementsLabel)
+
+        requirements.forEach { ingredient ->
+            val row = JPanel().apply {
+                layout = BoxLayout(this, BoxLayout.X_AXIS)
+                background = ColorScheme.DARK_GRAY_COLOR
+                isOpaque = false
+            }
+            if (ingredient.id > 0) {
+                val iconLabel = JLabel().apply {
+                    border = EmptyBorder(0, 4, 0, 0)
+                }
+                val img = itemManager.getImage(ingredient.id)
+                img.addTo(iconLabel)
+                row.add(iconLabel)
+            }
+            row.add(JLabel("${ingredient.name} x${ingredient.quantity}").apply {
+                font = FontManager.getRunescapeSmallFont()
+                foreground = ColorScheme.LIGHT_GRAY_COLOR
+            })
+            contentPanel.add(row)
         }
     }
 
