@@ -1,3 +1,5 @@
+package vintagebadger.trainingplanner.wiki2
+
 import com.google.gson.JsonParser
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient

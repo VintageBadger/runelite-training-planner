@@ -163,69 +163,77 @@ class TrainingPlanCard(
 
     private fun buildDisplayContent() {
         val method = plan.trainingMethod
+        val recipe = method.methods.firstOrNull()
+        val selectedSkill = Skill.entries.find { it.name == plan.skill }
+        val skillRequirement = selectedSkill?.let { skill ->
+            recipe?.skills?.firstOrNull { it.skill.equals(skill.displayName, ignoreCase = true) }
+        }
 
         addInfoRow("Method:", method.name)
 
-        if (method.wikiPage.isNotBlank()) {
-            addInfoRow("Wiki:", method.wikiPage)
+        if (recipe?.method?.isNotBlank() == true) {
+            addInfoRow("Recipe:", recipe.method)
         }
 
-        if (method.totalXp > 0) {
-            addInfoRow("Total XP:", NumberFormat.getNumberInstance().format(method.totalXp.toLong()))
+        if (skillRequirement != null && skillRequirement.xp > 0) {
+            addInfoRow("Total XP:", NumberFormat.getNumberInstance().format(skillRequirement.xp))
         }
 
-        if (method.maxLevel > 0) {
-            addInfoRow("Max Level:", method.maxLevel.toString())
+        if (skillRequirement != null && skillRequirement.level > 0) {
+            addInfoRow("Level:", skillRequirement.level.toString())
         }
 
-        if (method.output.isNotEmpty()) {
-            val outputRow = JPanel().apply {
-                layout = BoxLayout(this, BoxLayout.X_AXIS)
-                background = ColorScheme.DARK_GRAY_COLOR
-                isOpaque = false
+        val outputRow = JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.X_AXIS)
+            background = ColorScheme.DARK_GRAY_COLOR
+            isOpaque = false
+        }
+        val outputLabel = JLabel("Output:").apply {
+            font = FontManager.getRunescapeBoldFont()
+            foreground = Color.WHITE
+        }
+        outputRow.add(outputLabel)
+        if (method.id > 0) {
+            val iconLabel = JLabel().apply {
+                border = EmptyBorder(0, 4, 0, 0)
             }
-            val outputLabel = JLabel("Output:").apply {
-                font = FontManager.getRunescapeBoldFont()
-                foreground = Color.WHITE
-            }
-            outputRow.add(outputLabel)
-            method.output.forEach { itemRef ->
-                if (itemRef.id > 0) {
-                    val iconLabel = JLabel().apply {
-                        border = EmptyBorder(0, 4, 0, 0)
-                    }
-                    val img = itemManager.getImage(itemRef.id)
-                    img.addTo(iconLabel)
-                    outputRow.add(iconLabel)
-                }
-                outputRow.add(JLabel("${itemRef.name} x${itemRef.quantity}  ").apply {
-                    font = FontManager.getRunescapeFont()
-                    foreground = ColorScheme.LIGHT_GRAY_COLOR
-                })
-            }
-            contentPanel.add(outputRow)
+            val img = itemManager.getImage(method.id)
+            img.addTo(iconLabel)
+            outputRow.add(iconLabel)
         }
+        outputRow.add(JLabel("${method.name} x1  ").apply {
+            font = FontManager.getRunescapeFont()
+            foreground = ColorScheme.LIGHT_GRAY_COLOR
+        })
+        contentPanel.add(outputRow)
 
-        if (method.steps.isNotEmpty()) {
-            val stepsLabel = JLabel("Steps:").apply {
+        if (recipe != null && recipe.requires.isNotEmpty()) {
+            val requirementsLabel = JLabel("Requires:").apply {
                 font = FontManager.getRunescapeBoldFont()
                 foreground = Color.WHITE
                 border = EmptyBorder(8, 0, 4, 0)
             }
-            contentPanel.add(stepsLabel)
+            contentPanel.add(requirementsLabel)
 
-            method.steps.forEachIndexed { i, step ->
-                var stepText = "  ${i + 1}. ${step.name.ifBlank { step.step }}"
-                if (step.xp > 0) {
-                    stepText += " (${NumberFormat.getNumberInstance().format(step.xp)} XP)"
+            recipe.requires.forEach { ingredient ->
+                val row = JPanel().apply {
+                    layout = BoxLayout(this, BoxLayout.X_AXIS)
+                    background = ColorScheme.DARK_GRAY_COLOR
+                    isOpaque = false
                 }
-                if (step.level > 0) {
-                    stepText += " [Lvl ${step.level}]"
+                if (ingredient.id > 0) {
+                    val iconLabel = JLabel().apply {
+                        border = EmptyBorder(0, 4, 0, 0)
+                    }
+                    val img = itemManager.getImage(ingredient.id)
+                    img.addTo(iconLabel)
+                    row.add(iconLabel)
                 }
-                contentPanel.add(JLabel(stepText).apply {
+                row.add(JLabel("${ingredient.name} x${ingredient.quantity}").apply {
                     font = FontManager.getRunescapeSmallFont()
                     foreground = ColorScheme.LIGHT_GRAY_COLOR
                 })
+                contentPanel.add(row)
             }
         }
     }
@@ -244,7 +252,7 @@ class TrainingPlanCard(
             override fun changedUpdate(e: DocumentEvent) {}
         })
 
-        val label = JLabel("Method Name:").apply {
+        val label = JLabel("Output Name:").apply {
             font = FontManager.getRunescapeFont()
             foreground = ColorScheme.LIGHT_GRAY_COLOR
         }

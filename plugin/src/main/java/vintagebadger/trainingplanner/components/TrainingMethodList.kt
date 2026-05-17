@@ -4,7 +4,8 @@ import net.runelite.client.game.ItemManager
 import net.runelite.client.ui.ColorScheme
 import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.FontManager
-import vintagebadger.trainingplanner.models.TrainingMethod
+import vintagebadger.trainingplanner.models.Skill
+import vintagebadger.trainingplanner.wiki2.OutputItemRecipes
 import java.text.NumberFormat
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -16,13 +17,13 @@ class TrainingMethodList(
     private val onMethodSelected: () -> Unit,
 ) : JPanel() {
 
-    private var selectedMethod: TrainingMethod? = null
-    private val rowPanels = mutableMapOf<TrainingMethod, JPanel>()
+    private var selectedMethod: OutputItemRecipes? = null
+    private val rowPanels = mutableMapOf<OutputItemRecipes, JPanel>()
 
-    fun getSelectedMethod(): TrainingMethod? = selectedMethod
+    fun getSelectedMethod(): OutputItemRecipes? = selectedMethod
 
-    fun setMethods(methods: List<TrainingMethod>, expRequired: Int?) {
-        val previouslySelected = selectedMethod?.name
+    fun setMethods(methods: List<OutputItemRecipes>, skill: Skill, expRequired: Int?) {
+        val previouslySelected = selectedMethod?.id
         removeAll()
         rowPanels.clear()
         selectedMethod = null
@@ -39,28 +40,28 @@ class TrainingMethodList(
         }
 
         methods.forEach { method ->
-            val row = createRow(method, expRequired)
+            val row = createRow(method, skill, expRequired)
             rowPanels[method] = row
             add(row)
         }
 
-        previouslySelected?.let { name ->
-            methods.find { it.name == name }?.let { selectMethod(it, skipCallback = true) }
+        previouslySelected?.let { id ->
+            methods.find { it.id == id }?.let { selectMethod(it, skipCallback = true) }
         }
 
         revalidate()
         repaint()
     }
 
-    private fun createRow(method: TrainingMethod, expRequired: Int?): JPanel {
+    private fun createRow(method: OutputItemRecipes, skill: Skill, expRequired: Int?): JPanel {
         val row = JPanel().apply {
             layout = javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS)
             background = ColorScheme.DARKER_GRAY_COLOR
             border = EmptyBorder(4, 8, 4, 8)
             isOpaque = true
 
-            val outputId = method.output.firstOrNull()?.id
-            if (outputId != null && outputId > 0) {
+            val outputId = method.id
+            if (outputId > 0) {
                 val iconLabel = JLabel().apply {
                     border = EmptyBorder(0, 0, 0, 0)
                 }
@@ -75,9 +76,11 @@ class TrainingMethodList(
                 isOpaque = false
             }
 
-            val itemName = method.output.firstOrNull()?.name ?: "Unknown"
-            val craftCount = if (expRequired != null && expRequired > 0 && method.totalXp > 0) {
-                ceil(expRequired / method.totalXp).toLong()
+            val recipe = method.methods.firstOrNull()
+            val skillRequirement = recipe?.skills?.firstOrNull { it.skill.equals(skill.displayName, ignoreCase = true) }
+            val totalXp = skillRequirement?.xp ?: 0.0
+            val craftCount = if (expRequired != null && expRequired > 0 && totalXp > 0) {
+                ceil(expRequired / totalXp).toLong()
             } else {
                 null
             }
@@ -93,7 +96,8 @@ class TrainingMethodList(
                 foreground = ColorScheme.TEXT_COLOR
             }
 
-            val subLabel = JLabel("$itemName$craftText").apply {
+            val methodText = recipe?.method?.takeIf { it.isNotBlank() } ?: "Unknown method"
+            val subLabel = JLabel("$methodText$craftText").apply {
                 font = FontManager.getRunescapeSmallFont()
                 foreground = ColorScheme.LIGHT_GRAY_COLOR
             }
@@ -112,7 +116,7 @@ class TrainingMethodList(
         return row
     }
 
-    private fun selectMethod(method: TrainingMethod, skipCallback: Boolean = false) {
+    private fun selectMethod(method: OutputItemRecipes, skipCallback: Boolean = false) {
         selectedMethod = method
         rowPanels.forEach { (m, panel) ->
             panel.background = if (m == method) {

@@ -1,5 +1,6 @@
 package vintagebadger.trainingplanner;
 
+import com.google.gson.Gson;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
@@ -32,6 +33,8 @@ public class TrainingPlannerPlugin  extends Plugin{
     @Inject
     private ItemManager itemManager;
     @Inject
+    private Gson gson;
+    @Inject
     private TrainingPlannerConfig config;
 
     private NavigationButton navButton;
@@ -41,7 +44,7 @@ public class TrainingPlannerPlugin  extends Plugin{
     protected void startUp() throws Exception
     {
         log.debug("Training Planner started!");
-        panel = new TrainingPlannerPanel(client, config, itemManager);
+        panel = new TrainingPlannerPanel(client, config, itemManager, gson);
         navButton = NavigationButton.builder()
                 .tooltip("Training Planner")
                 .icon(ICON)

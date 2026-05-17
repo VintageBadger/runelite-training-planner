@@ -1,3 +1,5 @@
+package vintagebadger.trainingplanner.wiki2
+
 internal data class ItemIdentity(
     val id: Int?,
     val name: String

@@ -1,3 +1,5 @@
+package vintagebadger.trainingplanner.wiki2
+
 internal data class CliOptions(
     val items: List<String>,
     val outputPath: String?

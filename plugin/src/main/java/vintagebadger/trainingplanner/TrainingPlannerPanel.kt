@@ -1,5 +1,6 @@
 package vintagebadger.trainingplanner
 
+import com.google.gson.Gson
 import net.runelite.api.Client
 import net.runelite.client.game.ItemManager
 import net.runelite.client.ui.ColorScheme
@@ -7,14 +8,11 @@ import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.PluginPanel
 import vintagebadger.trainingplanner.components.TrainingMethodList
 import vintagebadger.trainingplanner.components.TrainingPlanCard
-import vintagebadger.trainingplanner.data.CookingMethods
-import vintagebadger.trainingplanner.data.CraftingMethods
-import vintagebadger.trainingplanner.data.HerbloreMethods
-import vintagebadger.trainingplanner.data.SmithingMethods
+import vintagebadger.trainingplanner.data.TrainingRecipeRepository
 import vintagebadger.trainingplanner.models.Skill
-import vintagebadger.trainingplanner.models.TrainingMethod
 import vintagebadger.trainingplanner.models.TrainingPlan
 import vintagebadger.trainingplanner.models.TrainingPlanList
+import vintagebadger.trainingplanner.wiki2.OutputItemRecipes
 import java.awt.BorderLayout
 import javax.swing.DefaultListCellRenderer
 import javax.swing.JComboBox
@@ -29,10 +27,12 @@ class TrainingPlannerPanel(
     client: Client,
     private val config: TrainingPlannerConfig,
     private val itemManager: ItemManager,
+    gson: Gson,
 ) : PluginPanel() {
 
     private val calculatorUi = LevelCalculatorUi()
     private val methodList = TrainingMethodList(itemManager, ::tryAutoSave)
+    private val recipeRepository = TrainingRecipeRepository(gson)
 
     private lateinit var savedPlansPanel: JPanel
     private lateinit var skillDropdown: JComboBox<Skill?>
@@ -104,25 +104,18 @@ class TrainingPlannerPanel(
     private fun onSkillChanged() {
         val skill = skillDropdown.selectedItem as? Skill ?: return
         val methods = loadMethodsForSkill(skill)
-        methodList.setMethods(methods, calculatorUi.expRequired)
+        methodList.setMethods(methods, skill, calculatorUi.expRequired)
         tryAutoSave()
     }
 
     private fun onExpRequiredChanged(exp: Int?) {
         val skill = skillDropdown.selectedItem as? Skill ?: return
         val methods = loadMethodsForSkill(skill)
-        methodList.setMethods(methods, exp)
+        methodList.setMethods(methods, skill, exp)
         tryAutoSave()
     }
 
-    private fun loadMethodsForSkill(skill: Skill): List<TrainingMethod> {
-        return when (skill) {
-            Skill.HERBLORE -> HerbloreMethods.methods
-            Skill.SMITHING -> SmithingMethods.methods
-            Skill.COOKING -> CookingMethods.methods
-            Skill.CRAFTING -> CraftingMethods.methods
-        }
-    }
+    private fun loadMethodsForSkill(skill: Skill): List<OutputItemRecipes> = recipeRepository.methodsFor(skill)
 
     private fun tryAutoSave() {
         val selectedSkill = skillDropdown.selectedItem as? Skill ?: return
@@ -144,7 +137,7 @@ class TrainingPlannerPanel(
             if (existing.skill == plan.skill &&
                 existing.startLevel == plan.startLevel &&
                 existing.endLevel == plan.endLevel &&
-                existing.trainingMethod.name == plan.trainingMethod.name
+                existing.trainingMethod.id == plan.trainingMethod.id
             ) {
                 return
             }
@@ -172,10 +165,10 @@ class TrainingPlannerPanel(
             val unsortedPlans = config.trainingPlans.plans
             plans.forEach { plan ->
                 val originalIndex = unsortedPlans.indexOfFirst {
-                    it.skill == plan.skill &&
+                        it.skill == plan.skill &&
                         it.startLevel == plan.startLevel &&
                         it.endLevel == plan.endLevel &&
-                        it.trainingMethod.name == plan.trainingMethod.name
+                        it.trainingMethod.id == plan.trainingMethod.id
                 }
                 val card = TrainingPlanCard(plan, originalIndex, config, itemManager, ::onPlanChanged)
                 card.alignmentX = CENTER_ALIGNMENT

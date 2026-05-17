@@ -1,3 +1,5 @@
+package vintagebadger.trainingplanner.wiki2
+
 import com.google.gson.GsonBuilder
 import java.nio.file.Files
 import java.nio.file.Path

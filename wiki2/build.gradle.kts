@@ -8,7 +8,7 @@ kotlin {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("vintagebadger.trainingplanner.wiki2.MainKt")
 }
 
 tasks.named<JavaExec>("run") {
