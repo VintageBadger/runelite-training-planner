@@ -2,12 +2,10 @@ package vintagebadger.trainingplanner.components.core
 
 import net.runelite.client.util.ImageUtil
 import java.awt.Color
-import java.awt.Dimension
 import javax.swing.ImageIcon
-import javax.swing.JButton
 
-private const val ICON_SIZE = 24
 private const val ICON_BASE_PATH = "/vintagebadger/trainingplanner/icons/"
+const val ICON_SIZE = 24
 
 /**
  * @param iconRes icon name
@@ -24,7 +22,7 @@ enum class Icon(val iconRes: String, color: Color? = null, rotation: Double? = n
         ImageUtil.loadImageResource(Icon::class.java, "$ICON_BASE_PATH$iconRes")
     }
 
-    private val imageIcon by lazy {
+    val imageIcon by lazy {
         var bufferedImage = image
 
         if (color != null) {
@@ -36,9 +34,5 @@ enum class Icon(val iconRes: String, color: Color? = null, rotation: Double? = n
         }
 
         ImageIcon(bufferedImage)
-    }
-
-    fun button() = JButton(imageIcon).apply {
-        preferredSize = Dimension(ICON_SIZE, ICON_SIZE)
     }
 }

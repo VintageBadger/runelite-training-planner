@@ -6,6 +6,9 @@ import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.FontManager
 import net.runelite.client.util.SwingUtil.removeButtonDecorations
 import vintagebadger.trainingplanner.TrainingPlannerConfig
+import vintagebadger.trainingplanner.components.core.Icon
+import vintagebadger.trainingplanner.components.core.IconToggleButton
+import vintagebadger.trainingplanner.components.core.button
 import vintagebadger.trainingplanner.data.ResolvedRecipeStep
 import vintagebadger.trainingplanner.data.TrainingRecipeRepository
 import vintagebadger.trainingplanner.models.Skill
@@ -14,7 +17,6 @@ import vintagebadger.trainingplanner.models.TrainingPlanList
 import vintagebadger.trainingplanner.wiki.IngredientRef
 import java.awt.BorderLayout
 import java.awt.Color
-import java.awt.Dimension
 import java.text.NumberFormat
 import javax.swing.BoxLayout
 import javax.swing.JButton
@@ -67,19 +69,17 @@ class TrainingPlanCard(
             background = ColorScheme.DARKER_GRAY_COLOR
         }
 
-        val toggleButton = JButton(if (isExpanded) "▼" else "▶")
-            .apply {
-            font = FontManager.getRunescapeBoldFont()
-            foreground = ColorScheme.LIGHT_GRAY_COLOR
-            preferredSize = Dimension(20, 20)
-            addActionListener {
-                isExpanded = !isExpanded
-                contentPanel.isVisible = isExpanded
-                text = if (isExpanded) "▼" else "▶"
-                revalidate()
-                repaint()
-            }
+        val toggleButton = IconToggleButton(
+            initialSelected = isExpanded,
+            selectedIcon = Icon.ChevronDown.imageIcon,
+            unselectedIcon = Icon.ChevronRight.imageIcon,
+        ) { expanded ->
+            isExpanded = expanded
+            contentPanel.isVisible = expanded
+            revalidate()
+            repaint()
         }
+
         removeButtonDecorations(toggleButton)
 
         val skillLabel = JLabel(skillDisplayName).apply {
@@ -88,7 +88,7 @@ class TrainingPlanCard(
             border = EmptyBorder(0, 4, 0, 12)
         }
 
-        val levelLabel = JLabel("${plan.startLevel} \u2192 ${plan.endLevel}").apply {
+        val levelLabel = JLabel("${plan.startLevel} -> ${plan.endLevel}").apply {
             font = FontManager.getRunescapeFont()
             foreground = ColorScheme.LIGHT_GRAY_COLOR
         }
@@ -128,9 +128,7 @@ class TrainingPlanCard(
         }
     }
 
-    private fun buildEditButton() = JButton("✎").apply {
-        font = FontManager.getRunescapeBoldFont()
-        foreground = ColorScheme.LIGHT_GRAY_COLOR
+    private fun buildEditButton() = Icon.Edit.button().apply {
         background = ColorScheme.DARK_GRAY_COLOR
         border = EmptyBorder(4, 6, 4, 6)
         toolTipText = "Edit"
@@ -143,9 +141,7 @@ class TrainingPlanCard(
         }
     }
 
-    private fun buildDeleteButton() = JButton("🗑").apply {
-        font = FontManager.getRunescapeBoldFont()
-        foreground = Color.RED
+    private fun buildDeleteButton() = Icon.Delete.button().apply {
         background = ColorScheme.DARK_GRAY_COLOR
         border = EmptyBorder(4, 6, 4, 6)
         toolTipText = "Delete"
@@ -336,7 +332,7 @@ class TrainingPlanCard(
     }
 
     private fun deletePlan() {
-        val currentPlans = config.getTrainingPlans().plans.toMutableList()
+        val currentPlans = config.trainingPlans.plans.toMutableList()
         if (planIndex in currentPlans.indices) {
             currentPlans.removeAt(planIndex)
             config.setTrainingPlans(TrainingPlanList(currentPlans))
@@ -345,7 +341,7 @@ class TrainingPlanCard(
     }
 
     private fun savePlan(updatedPlan: TrainingPlan = plan) {
-        val currentPlans = config.getTrainingPlans().plans.toMutableList()
+        val currentPlans = config.trainingPlans.plans.toMutableList()
         if (planIndex in currentPlans.indices) {
             currentPlans[planIndex] = updatedPlan
             config.setTrainingPlans(TrainingPlanList(currentPlans))
