@@ -113,6 +113,7 @@ class TrainingPlanCard(
         headerPanel.add(rightPanel, BorderLayout.EAST)
     }
 
+    // todo: icon button here
     private fun buildCancelButton() = JButton("✕").apply {
         font = FontManager.getRunescapeBoldFont()
         foreground = ColorScheme.LIGHT_GRAY_COLOR
@@ -128,6 +129,9 @@ class TrainingPlanCard(
         }
     }
 
+    // todo: fix toggled state when this button is pressed
+    // todo: plan out how edit works
+    // todo: fix edit functionality
     private fun buildEditButton() = Icon.Edit.button().apply {
         background = ColorScheme.DARK_GRAY_COLOR
         border = EmptyBorder(4, 6, 4, 6)
@@ -193,6 +197,7 @@ class TrainingPlanCard(
             foreground = Color.WHITE
         }
         outputRow.add(outputLabel)
+        // todo: reusable component for this
         if (method.id > 0) {
             val iconLabel = JLabel().apply {
                 border = EmptyBorder(0, 4, 0, 0)
