@@ -208,8 +208,10 @@ class TrainingPlanCard(
         })
         contentPanel.add(outputRow)
 
-        val steps = selectedSkill?.let { recipeRepository.resolveSteps(trainingMethod, it) }.orEmpty()
-        if (steps.isNotEmpty()) {
+        val rootStep = selectedSkill?.let {
+            recipeRepository.resolveSteps(trainingMethod, it)
+        }
+        if (rootStep != null) {
             val stepsLabel = JLabel("Steps:").apply {
                 font = FontManager.getRunescapeBoldFont()
                 foreground = Color.WHITE
@@ -217,15 +219,13 @@ class TrainingPlanCard(
             }
             contentPanel.add(stepsLabel)
 
-            steps.forEachIndexed { index, step ->
-                addStep(index, step)
-            }
+            addStep(rootStep, depth = 0)
         } else if (action != null && action.requires.isNotEmpty()) {
             addRequirements(action.requires)
         }
     }
 
-    private fun addStep(index: Int, step: ResolvedRecipeStep) {
+    private fun addStep(step: ResolvedRecipeStep, depth: Int) {
         val stepText =
             buildString {
                 append("${step.outputName} x${step.outputQuantity}")
@@ -238,6 +238,9 @@ class TrainingPlanCard(
             background = ColorScheme.DARK_GRAY_COLOR
             isOpaque = false
         }
+        if (depth > 0) {
+            row.border = EmptyBorder(0, depth * 16, 0, 0)
+        }
         if (step.outputId > 0) {
             val itemIcon = getItemIcon(step.outputId, itemManager, leftPadding = 4)
             row.add(itemIcon)
@@ -248,12 +251,16 @@ class TrainingPlanCard(
         })
         contentPanel.add(row)
 
-        //TODO: each req should be on its own line + itemIcon
         if (step.requires.isNotEmpty()) {
-            contentPanel.add(JLabel("   Requires: ${step.requires.joinToString(", ") { "${it.name} x${it.quantity}" }}").apply {
+            contentPanel.add(JLabel("Requires: ${step.requires.joinToString(", ") { "${it.name} x${it.quantity}" }}").apply {
                 font = FontManager.getRunescapeSmallFont()
                 foreground = ColorScheme.LIGHT_GRAY_COLOR
+                border = EmptyBorder(0, ( depth + 1) * 16, 0, 0)
             })
+        }
+
+        step.children.forEach { child ->
+            addStep(child, depth + 1)
         }
     }
 

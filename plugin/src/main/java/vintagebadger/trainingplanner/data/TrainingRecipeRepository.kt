@@ -16,7 +16,8 @@ data class ResolvedRecipeStep(
     val skill: String,
     val level: Int,
     val xp: Double,
-    val requires: List<IngredientRef>,
+    val requires: List<IngredientRef> = emptyList(),
+    val children: List<ResolvedRecipeStep> = emptyList(),
 )
 
 class TrainingRecipeRepository(
@@ -53,7 +54,7 @@ class TrainingRecipeRepository(
             .sortedBy { it.name }
     }
 
-    fun resolveSteps(output: OutputItemRecipes, skill: Skill): List<ResolvedRecipeStep> {
+    fun resolveSteps(output: OutputItemRecipes, skill: Skill): ResolvedRecipeStep? {
         return resolveSteps(output, skill, requiredQuantity = 1, stack = emptySet())
     }
 
@@ -62,26 +63,34 @@ class TrainingRecipeRepository(
         skill: Skill,
         requiredQuantity: Int,
         stack: Set<Int>,
-    ): List<ResolvedRecipeStep> {
-        if (output.id in stack) {
-            return emptyList()
-        }
+    ): ResolvedRecipeStep? {
+        if (output.id in stack) return null
 
-        val recipe = output.methods.firstOrNull() ?: return emptyList()
+        val recipe = output.methods.firstOrNull() ?: return null
         val nextStack = stack + output.id
-        val dependencySteps = recipe.requires.flatMap { ingredient ->
+
+        val children = mutableListOf<ResolvedRecipeStep>()
+        val leafIngredients = mutableListOf<IngredientRef>()
+
+        for (ingredient in recipe.requires) {
             val dependency = recipesById[ingredient.id]
             if (dependency == null) {
-                emptyList()
+                leafIngredients.add(ingredient.copy(quantity = ingredient.quantity * requiredQuantity))
             } else {
-                resolveSteps(dependency, skill, requiredQuantity = ingredient.quantity * requiredQuantity, stack = nextStack)
+                val child = resolveSteps(dependency, skill, ingredient.quantity * requiredQuantity, nextStack)
+                if (child != null) {
+                    children.add(child)
+                } else {
+                    leafIngredients.add(ingredient.copy(quantity = ingredient.quantity * requiredQuantity))
+                }
             }
         }
+
         val skillRequirement = recipe.skills.firstOrNull {
             it.skill.equals(skill.displayName, ignoreCase = true)
         }
 
-        return dependencySteps + ResolvedRecipeStep(
+        return ResolvedRecipeStep(
             outputId = output.id,
             outputName = output.name,
             outputQuantity = requiredQuantity,
@@ -89,9 +98,8 @@ class TrainingRecipeRepository(
             skill = skillRequirement?.skill.orEmpty(),
             level = skillRequirement?.level ?: 0,
             xp = skillRequirement?.xp ?: 0.0,
-            requires = recipe.requires.map { ingredient ->
-                ingredient.copy(quantity = ingredient.quantity * requiredQuantity)
-            },
+            requires = leafIngredients,
+            children = children,
         )
     }
 
