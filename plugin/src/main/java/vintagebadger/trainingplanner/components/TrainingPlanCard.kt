@@ -14,6 +14,7 @@ import vintagebadger.trainingplanner.data.TrainingRecipeRepository
 import vintagebadger.trainingplanner.models.Skill
 import vintagebadger.trainingplanner.models.TrainingPlan
 import vintagebadger.trainingplanner.models.TrainingPlanList
+import vintagebadger.trainingplanner.util.totalXpBetween
 import vintagebadger.trainingplanner.wiki.IngredientRef
 import java.awt.BorderLayout
 import java.awt.Color
@@ -180,9 +181,9 @@ class TrainingPlanCard(
             addInfoRow("Tool:", action.method)
         }
 
-        //TODO: this is wrong, we need the total xp required
         if (skillRequirement != null && skillRequirement.xp > 0) {
-            addInfoRow("Total XP:", NumberFormat.getNumberInstance().format(skillRequirement.xp))
+            val totalXp = totalXpBetween(plan.startLevel, plan.endLevel)
+            addInfoRow("Total XP:", NumberFormat.getNumberInstance().format(totalXp))
         }
 
         if (skillRequirement != null && skillRequirement.level > 0) {

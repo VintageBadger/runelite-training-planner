@@ -2,6 +2,7 @@ package vintagebadger.trainingplanner
 
 import net.runelite.api.Experience
 import net.runelite.client.ui.DynamicGridLayout
+import vintagebadger.trainingplanner.util.totalXpBetween
 import java.awt.GridLayout
 import java.text.NumberFormat
 import javax.swing.JLabel
@@ -56,10 +57,7 @@ class LevelCalculatorUi : JPanel() {
         val startLevel = getStartLevel() ?: return
         val endLevel = getEndLevel() ?: return
 
-        val startExperience = Experience.getXpForLevel(startLevel)
-        val endExperience = Experience.getXpForLevel(endLevel)
-
-        expRequired = endExperience - startExperience
+        expRequired = totalXpBetween(startLevel, endLevel)
     }
 
     class InputPanel : JPanel() {
