@@ -19,13 +19,13 @@ import vintagebadger.trainingplanner.wiki.IngredientRef
 import java.awt.BorderLayout
 import java.awt.Color
 import java.text.NumberFormat
+import javax.swing.BorderFactory
 import javax.swing.BoxLayout
 import javax.swing.JButton
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JTextField
 import javax.swing.border.EmptyBorder
-import javax.swing.border.MatteBorder
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 
@@ -50,7 +50,10 @@ class TrainingPlanCard(
     init {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
         background = ColorScheme.DARK_GRAY_COLOR
-        border = MatteBorder(0, 0, 1, 0, ColorScheme.MEDIUM_GRAY_COLOR)
+        border = BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, ColorScheme.MEDIUM_GRAY_COLOR),
+            BorderFactory.createEmptyBorder(4, 0, 4, 0)
+        )
 
         add(headerPanel)
         add(contentPanel)
@@ -156,6 +159,7 @@ class TrainingPlanCard(
     private fun buildContent() {
         contentPanel.removeAll()
         contentPanel.layout = DynamicGridLayout(0, 1, 0, 3)
+        contentPanel.border = EmptyBorder(2, 0,0,0)
         contentPanel.background = ColorScheme.DARK_GRAY_COLOR
         contentPanel.isVisible = isExpanded
 
@@ -172,13 +176,6 @@ class TrainingPlanCard(
         val selectedSkill = Skill.entries.find { it.name == plan.skill }
         val skillRequirement = selectedSkill?.let { skill ->
             action?.skills?.firstOrNull { it.skill.equals(skill.displayName, ignoreCase = true) }
-        }
-
-//        addInfoRow("Method:", trainingMethod.name)
-
-        //TODO: move the method to per step otherwise this is useless
-        if (action?.method?.isNotBlank() == true) {
-            addInfoRow("Tool:", action.method)
         }
 
         if (skillRequirement != null && skillRequirement.xp > 0) {
@@ -229,18 +226,13 @@ class TrainingPlanCard(
     }
 
     private fun addStep(index: Int, step: ResolvedRecipeStep) {
-        val stepText = buildString {
-            append("${index + 1}. ${step.outputName} x${step.outputQuantity}")
-            if (step.recipeMethod.isNotBlank()) {
-                append(" (${step.recipeMethod})")
+        val stepText =
+            buildString {
+                append("${step.outputName} x${step.outputQuantity}")
+                if (step.recipeMethod.isNotBlank()) {
+                    append(" (${step.recipeMethod})")
+                }
             }
-            if (step.xp > 0) {
-                append(" - ${NumberFormat.getNumberInstance().format(step.xp)} XP")
-            }
-            if (step.level > 0) {
-                append(" [Lvl ${step.level}]")
-            }
-        }
         val row = JPanel().apply {
             layout = BoxLayout(this, BoxLayout.X_AXIS)
             background = ColorScheme.DARK_GRAY_COLOR
@@ -256,6 +248,7 @@ class TrainingPlanCard(
         })
         contentPanel.add(row)
 
+        //TODO: each req should be on its own line + itemIcon
         if (step.requires.isNotEmpty()) {
             contentPanel.add(JLabel("   Requires: ${step.requires.joinToString(", ") { "${it.name} x${it.quantity}" }}").apply {
                 font = FontManager.getRunescapeSmallFont()
