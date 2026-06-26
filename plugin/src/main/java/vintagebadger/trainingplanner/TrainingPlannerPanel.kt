@@ -21,7 +21,6 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JTabbedPane
 import java.awt.Component
-import java.awt.Dimension
 
 class TrainingPlannerPanel(
     client: Client,
@@ -85,7 +84,10 @@ class TrainingPlannerPanel(
         })
         panel.add(methodList)
 
-        return panel
+        return JPanel(BorderLayout()).apply {
+            add(panel, BorderLayout.NORTH)
+            background = ColorScheme.DARK_GRAY_COLOR
+        }
     }
 
     private fun buildSavedPlansTab(): JPanel {
@@ -96,7 +98,7 @@ class TrainingPlannerPanel(
         savedPlansPanel = wrapper
         refreshSavedPlans()
         return JPanel(BorderLayout()).apply{
-            add(savedPlansPanel, BorderLayout.CENTER)
+            add(savedPlansPanel, BorderLayout.NORTH)
             background = ColorScheme.DARK_GRAY_COLOR
         }
     }
@@ -172,7 +174,6 @@ class TrainingPlannerPanel(
                 }
                 val card = TrainingPlanCard(plan, originalIndex, config, itemManager, recipeRepository, ::onPlanChanged)
                 card.alignmentX = CENTER_ALIGNMENT
-                card.maximumSize = Dimension(Int.MAX_VALUE, Int.MAX_VALUE)
                 savedPlansPanel.add(card)
             }
         }
