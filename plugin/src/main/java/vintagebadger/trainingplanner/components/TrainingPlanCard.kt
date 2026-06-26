@@ -166,25 +166,27 @@ class TrainingPlanCard(
     }
 
     private fun buildDisplayContent() {
-        val method = plan.trainingMethod
-        val recipe = method.methods.firstOrNull()
+        val trainingMethod = plan.trainingMethod
+        val action = plan.trainingMethod.methods.firstOrNull()
         val selectedSkill = Skill.entries.find { it.name == plan.skill }
         val skillRequirement = selectedSkill?.let { skill ->
-            recipe?.skills?.firstOrNull { it.skill.equals(skill.displayName, ignoreCase = true) }
+            action?.skills?.firstOrNull { it.skill.equals(skill.displayName, ignoreCase = true) }
         }
 
-        addInfoRow("Method:", method.name)
+//        addInfoRow("Method:", trainingMethod.name)
 
-        if (recipe?.method?.isNotBlank() == true) {
-            addInfoRow("Recipe:", recipe.method)
+        //TODO: move the method to per step otherwise this is useless
+        if (action?.method?.isNotBlank() == true) {
+            addInfoRow("Tool:", action.method)
         }
 
+        //TODO: this is wrong, we need the total xp required
         if (skillRequirement != null && skillRequirement.xp > 0) {
             addInfoRow("Total XP:", NumberFormat.getNumberInstance().format(skillRequirement.xp))
         }
 
         if (skillRequirement != null && skillRequirement.level > 0) {
-            addInfoRow("Level:", skillRequirement.level.toString())
+            addInfoRow("Level required:", skillRequirement.level.toString())
         }
 
         val outputRow = JPanel().apply {
@@ -197,22 +199,18 @@ class TrainingPlanCard(
             foreground = Color.WHITE
         }
         outputRow.add(outputLabel)
-        // todo: reusable component for this
-        if (method.id > 0) {
-            val iconLabel = JLabel().apply {
-                border = EmptyBorder(0, 4, 0, 0)
-            }
-            val img = itemManager.getImage(method.id)
-            img.addTo(iconLabel)
-            outputRow.add(iconLabel)
+
+        if (trainingMethod.id > 0) {
+            val itemIcon = getItemIcon(trainingMethod.id, itemManager, leftPadding = 4)
+            outputRow.add(itemIcon)
         }
-        outputRow.add(JLabel("${method.name} x1  ").apply {
+        outputRow.add(JLabel(trainingMethod.name).apply {
             font = FontManager.getRunescapeFont()
             foreground = ColorScheme.LIGHT_GRAY_COLOR
         })
         contentPanel.add(outputRow)
 
-        val steps = selectedSkill?.let { recipeRepository.resolveSteps(method, it) }.orEmpty()
+        val steps = selectedSkill?.let { recipeRepository.resolveSteps(trainingMethod, it) }.orEmpty()
         if (steps.isNotEmpty()) {
             val stepsLabel = JLabel("Steps:").apply {
                 font = FontManager.getRunescapeBoldFont()
@@ -224,8 +222,8 @@ class TrainingPlanCard(
             steps.forEachIndexed { index, step ->
                 addStep(index, step)
             }
-        } else if (recipe != null && recipe.requires.isNotEmpty()) {
-            addRequirements(recipe.requires)
+        } else if (action != null && action.requires.isNotEmpty()) {
+            addRequirements(action.requires)
         }
     }
 
@@ -248,12 +246,8 @@ class TrainingPlanCard(
             isOpaque = false
         }
         if (step.outputId > 0) {
-            val iconLabel = JLabel().apply {
-                border = EmptyBorder(0, 4, 0, 0)
-            }
-            val img = itemManager.getImage(step.outputId)
-            img.addTo(iconLabel)
-            row.add(iconLabel)
+            val itemIcon = getItemIcon(step.outputId, itemManager, leftPadding = 4)
+            row.add(itemIcon)
         }
         row.add(JLabel(stepText).apply {
             font = FontManager.getRunescapeSmallFont()
@@ -284,12 +278,8 @@ class TrainingPlanCard(
                 isOpaque = false
             }
             if (ingredient.id > 0) {
-                val iconLabel = JLabel().apply {
-                    border = EmptyBorder(0, 4, 0, 0)
-                }
-                val img = itemManager.getImage(ingredient.id)
-                img.addTo(iconLabel)
-                row.add(iconLabel)
+                val itemIcon = getItemIcon(ingredient.id, itemManager, leftPadding = 4)
+                row.add(itemIcon)
             }
             row.add(JLabel("${ingredient.name} x${ingredient.quantity}").apply {
                 font = FontManager.getRunescapeSmallFont()
