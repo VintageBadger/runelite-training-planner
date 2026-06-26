@@ -54,8 +54,8 @@ class TrainingRecipeRepository(
             .sortedBy { it.name }
     }
 
-    fun resolveSteps(output: OutputItemRecipes, skill: Skill): ResolvedRecipeStep? {
-        return resolveSteps(output, skill, requiredQuantity = 1, stack = emptySet())
+    fun resolveSteps(output: OutputItemRecipes, skill: Skill, requiredQuantity: Int): ResolvedRecipeStep? {
+        return resolveSteps(output, skill, requiredQuantity = requiredQuantity, stack = emptySet())
     }
 
     private fun resolveSteps(

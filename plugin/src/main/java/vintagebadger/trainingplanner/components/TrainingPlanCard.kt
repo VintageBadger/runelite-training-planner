@@ -208,9 +208,11 @@ class TrainingPlanCard(
         })
         contentPanel.add(outputRow)
 
+        //TODO: update requiredQuantity based on xp calculation like in new plan panel
         val rootStep = selectedSkill?.let {
-            recipeRepository.resolveSteps(trainingMethod, it)
+            recipeRepository.resolveSteps(trainingMethod, it, 1)
         }
+        val depth = 0
         if (rootStep != null) {
             val stepsLabel = JLabel("Steps:").apply {
                 font = FontManager.getRunescapeBoldFont()
@@ -219,9 +221,9 @@ class TrainingPlanCard(
             }
             contentPanel.add(stepsLabel)
 
-            addStep(rootStep, depth = 0)
+            addStep(rootStep, depth = depth)
         } else if (action != null && action.requires.isNotEmpty()) {
-            addRequirements(action.requires)
+            addRequirements(action.requires, depth = depth)
         }
     }
 
@@ -252,11 +254,12 @@ class TrainingPlanCard(
         contentPanel.add(row)
 
         if (step.requires.isNotEmpty()) {
-            contentPanel.add(JLabel("Requires: ${step.requires.joinToString(", ") { "${it.name} x${it.quantity}" }}").apply {
-                font = FontManager.getRunescapeSmallFont()
-                foreground = ColorScheme.LIGHT_GRAY_COLOR
-                border = EmptyBorder(0, ( depth + 1) * 16, 0, 0)
-            })
+//            contentPanel.add(JLabel("Requires: ${step.requires.joinToString(", ") { "${it.name} x${it.quantity}" }}").apply {
+//                font = FontManager.getRunescapeSmallFont()
+//                foreground = ColorScheme.LIGHT_GRAY_COLOR
+//                border = EmptyBorder(0, ( depth + 1) * 16, 0, 0)
+//            })
+            addRequirements(step.requires, depth = depth)
         }
 
         step.children.forEach { child ->
@@ -264,18 +267,21 @@ class TrainingPlanCard(
         }
     }
 
-    private fun addRequirements(requirements: List<IngredientRef>) {
-        val requirementsLabel = JLabel("Requires:").apply {
-            font = FontManager.getRunescapeBoldFont()
-            foreground = Color.WHITE
-            border = EmptyBorder(8, 0, 4, 0)
-        }
-        contentPanel.add(requirementsLabel)
+
+
+    private fun addRequirements(requirements: List<IngredientRef>, depth: Int) {
+//        val requirementsLabel = JLabel("Requires:").apply {
+//            font = FontManager.getRunescapeBoldFont()
+//            foreground = Color.WHITE
+//            border = EmptyBorder(8, ( depth + 1) * 16, 4, 0)
+//        }
+//        contentPanel.add(requirementsLabel)
 
         requirements.forEach { ingredient ->
             val row = JPanel().apply {
                 layout = BoxLayout(this, BoxLayout.X_AXIS)
                 background = ColorScheme.DARK_GRAY_COLOR
+                border = EmptyBorder(0, ( depth + 1) * 16, 0, 0)
                 isOpaque = false
             }
             if (ingredient.id > 0) {
