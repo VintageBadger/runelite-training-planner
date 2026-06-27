@@ -42,15 +42,14 @@ class TrainingRecipeRepository(
         graph.recipes.associateBy { it.id }
     }
 
-    fun methodsFor(skill: Skill): List<OutputItemRecipes> {
+    fun methodsFor(skill: Skill, maxLevel: Int): List<OutputItemRecipes> {
         return graph.recipes
             .filter { output ->
                 val hasSelectedSkill = output.methods.firstOrNull()
                     ?.skills
-                    ?.any { it.skill.equals(skill.displayName, ignoreCase = true) }
+                    ?.any { it.skill.equals(skill.displayName, ignoreCase = true) && it.level <= maxLevel }
                 hasSelectedSkill == true
             }
-            .sortedBy { it.name }
     }
 
     fun resolveSteps(output: OutputItemRecipes, skill: Skill): List<ResolvedRecipeStep> {

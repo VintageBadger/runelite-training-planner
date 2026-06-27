@@ -97,7 +97,7 @@ class TrainingPlannerPanel(
         }
         savedPlansPanel = wrapper
         refreshSavedPlans()
-        return JPanel(BorderLayout()).apply{
+        return JPanel(BorderLayout()).apply {
             add(savedPlansPanel, BorderLayout.NORTH)
             background = ColorScheme.DARK_GRAY_COLOR
         }
@@ -105,19 +105,22 @@ class TrainingPlannerPanel(
 
     private fun onSkillChanged() {
         val skill = skillDropdown.selectedItem as? Skill ?: return
-        val methods = loadMethodsForSkill(skill)
+        val maxLevel = calculatorUi.getStartLevel() ?: return
+        val methods = loadMethodsForSkill(skill, maxLevel)
         methodList.setMethods(methods, skill, calculatorUi.expRequired)
         tryAutoSave()
     }
 
     private fun onExpRequiredChanged(exp: Int?) {
         val skill = skillDropdown.selectedItem as? Skill ?: return
-        val methods = loadMethodsForSkill(skill)
+        val maxLevel = calculatorUi.getStartLevel() ?: return
+        val methods = loadMethodsForSkill(skill, maxLevel)
         methodList.setMethods(methods, skill, exp)
         tryAutoSave()
     }
 
-    private fun loadMethodsForSkill(skill: Skill): List<OutputItemRecipes> = recipeRepository.methodsFor(skill)
+    private fun loadMethodsForSkill(skill: Skill, maxLevel: Int): List<OutputItemRecipes> =
+        recipeRepository.methodsFor(skill, maxLevel)
 
     private fun tryAutoSave() {
         val selectedSkill = skillDropdown.selectedItem as? Skill ?: return
@@ -167,10 +170,10 @@ class TrainingPlannerPanel(
             val unsortedPlans = config.trainingPlans.plans
             plans.forEach { plan ->
                 val originalIndex = unsortedPlans.indexOfFirst {
-                        it.skill == plan.skill &&
-                        it.startLevel == plan.startLevel &&
-                        it.endLevel == plan.endLevel &&
-                        it.trainingMethod.id == plan.trainingMethod.id
+                    it.skill == plan.skill &&
+                            it.startLevel == plan.startLevel &&
+                            it.endLevel == plan.endLevel &&
+                            it.trainingMethod.id == plan.trainingMethod.id
                 }
                 val card = TrainingPlanCard(plan, originalIndex, config, itemManager, recipeRepository, ::onPlanChanged)
                 card.alignmentX = CENTER_ALIGNMENT
