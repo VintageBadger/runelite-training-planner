@@ -6,6 +6,7 @@ import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.FontManager
 import net.runelite.client.util.SwingUtil.removeButtonDecorations
 import vintagebadger.trainingplanner.TrainingPlannerConfig
+import vintagebadger.trainingplanner.components.core.ICON_SIZE
 import vintagebadger.trainingplanner.components.core.Icon
 import vintagebadger.trainingplanner.components.core.IconToggleButton
 import vintagebadger.trainingplanner.components.core.button
@@ -212,7 +213,7 @@ class TrainingPlanCard(
         val rootStep = selectedSkill?.let {
             recipeRepository.resolveSteps(trainingMethod, it, 1)
         }
-        val depth = 0
+
         if (rootStep != null) {
             val stepsLabel = JLabel("Steps:").apply {
                 font = FontManager.getRunescapeBoldFont()
@@ -221,68 +222,88 @@ class TrainingPlanCard(
             }
             contentPanel.add(stepsLabel)
 
-            addStep(rootStep, depth = depth)
+            contentPanel.add(buildStepNode(rootStep, depth = 0))
         } else if (action != null && action.requires.isNotEmpty()) {
-            addRequirements(action.requires, depth = depth)
+            addRequirements(action.requires, depth = 0)
         }
     }
 
-    private fun addStep(step: ResolvedRecipeStep, depth: Int) {
-        val stepText =
-            buildString {
-                append("${step.outputName} x${step.outputQuantity}")
-                if (step.recipeMethod.isNotBlank()) {
-                    append(" (${step.recipeMethod})")
-                }
+    private fun buildStepNode(step: ResolvedRecipeStep, depth: Int): JPanel {
+        val hasContent = step.children.isNotEmpty() || step.requires.isNotEmpty()
+
+        val stepText = buildString {
+            append("${step.outputName} x${step.outputQuantity}")
+            if (step.recipeMethod.isNotBlank()) {
+                append(" (${step.recipeMethod})")
             }
-        val row = JPanel().apply {
+        }
+
+        val bodyPanel = JPanel(BorderLayout()).apply {
+            layout = BoxLayout(this, BoxLayout.Y_AXIS)
+            background = ColorScheme.DARK_GRAY_COLOR
+            isOpaque = false
+            alignmentX = LEFT_ALIGNMENT
+        }
+
+        val headerRow = JPanel().apply {
             layout = BoxLayout(this, BoxLayout.X_AXIS)
             background = ColorScheme.DARK_GRAY_COLOR
             isOpaque = false
+            alignmentX = LEFT_ALIGNMENT
         }
         if (depth > 0) {
-            row.border = EmptyBorder(0, depth * 16, 0, 0)
+            headerRow.border = EmptyBorder(0, depth * 16, 0, 0)
+        }
+
+        val toggle = if (hasContent) {
+            IconToggleButton(
+                initialSelected = true,
+                selectedIcon = Icon.ChevronDown.imageIcon,
+                unselectedIcon = Icon.ChevronRight.imageIcon,
+            ) { expanded ->
+                bodyPanel.isVisible = expanded
+                this@TrainingPlanCard.revalidate()
+                this@TrainingPlanCard.repaint()
+            }.apply { removeButtonDecorations(this) }
+        } else null
+
+        if (toggle != null) {
+            headerRow.add(toggle)
         }
         if (step.outputId > 0) {
             val itemIcon = getItemIcon(step.outputId, itemManager, leftPadding = 4)
-            row.add(itemIcon)
+            headerRow.add(itemIcon)
         }
-        row.add(JLabel(stepText).apply {
+        headerRow.add(JLabel(stepText).apply {
             font = FontManager.getRunescapeSmallFont()
             foreground = ColorScheme.LIGHT_GRAY_COLOR
+            alignmentX = LEFT_ALIGNMENT
         })
-        contentPanel.add(row)
 
         if (step.requires.isNotEmpty()) {
-//            contentPanel.add(JLabel("Requires: ${step.requires.joinToString(", ") { "${it.name} x${it.quantity}" }}").apply {
-//                font = FontManager.getRunescapeSmallFont()
-//                foreground = ColorScheme.LIGHT_GRAY_COLOR
-//                border = EmptyBorder(0, ( depth + 1) * 16, 0, 0)
-//            })
-            addRequirements(step.requires, depth = depth)
+            addRequirements(step.requires, depth = depth + 1 , target = bodyPanel)
+        }
+        step.children.forEach { child ->
+            bodyPanel.add(buildStepNode(child, depth + 1))
         }
 
-        step.children.forEach { child ->
-            addStep(child, depth + 1)
+        return JPanel().apply {
+            layout = BoxLayout(this, BoxLayout.Y_AXIS)
+            background = ColorScheme.DARK_GRAY_COLOR
+            isOpaque = false
+            add(headerRow)
+            add(bodyPanel)
         }
     }
 
-
-
-    private fun addRequirements(requirements: List<IngredientRef>, depth: Int) {
-//        val requirementsLabel = JLabel("Requires:").apply {
-//            font = FontManager.getRunescapeBoldFont()
-//            foreground = Color.WHITE
-//            border = EmptyBorder(8, ( depth + 1) * 16, 4, 0)
-//        }
-//        contentPanel.add(requirementsLabel)
-
+    private fun addRequirements(requirements: List<IngredientRef>, depth: Int, target: JPanel = contentPanel) {
         requirements.forEach { ingredient ->
             val row = JPanel().apply {
                 layout = BoxLayout(this, BoxLayout.X_AXIS)
                 background = ColorScheme.DARK_GRAY_COLOR
-                border = EmptyBorder(0, ( depth + 1) * 16, 0, 0)
+                border = EmptyBorder(0, (depth * 16) + ICON_SIZE, 0, 0)
                 isOpaque = false
+                alignmentX = LEFT_ALIGNMENT
             }
             if (ingredient.id > 0) {
                 val itemIcon = getItemIcon(ingredient.id, itemManager, leftPadding = 4)
@@ -292,7 +313,7 @@ class TrainingPlanCard(
                 font = FontManager.getRunescapeSmallFont()
                 foreground = ColorScheme.LIGHT_GRAY_COLOR
             })
-            contentPanel.add(row)
+            target.add(row)
         }
     }
 
