@@ -173,6 +173,10 @@ class TrainingPlanCard(
 
     private fun buildDisplayContent() {
         val trainingMethod = plan.trainingMethod
+
+        // We do firstOrNull because a component can have multiple ways to craft it.
+        // For now, we assume the wiki returned first method is the correct one.
+        // In the future it could be user-chosen
         val action = plan.trainingMethod.methods.firstOrNull()
         val selectedSkill = Skill.entries.find { it.name == plan.skill }
         val skillRequirement = selectedSkill?.let { skill ->
