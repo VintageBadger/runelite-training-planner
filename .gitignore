@@ -30,6 +30,7 @@ build
 .idea/
 .project
 .settings/
+.kotlin/
 .classpath
 nbactions.xml
 nb-configuration.xml
