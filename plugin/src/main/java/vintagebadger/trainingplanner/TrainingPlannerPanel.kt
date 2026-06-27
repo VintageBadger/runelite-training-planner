@@ -68,7 +68,7 @@ class TrainingPlannerPanel(
                     return component
                 }
             }
-            addActionListener { onSkillChanged() }
+            addActionListener { onExpRequiredChanged(calculatorUi.expRequired) }
         }
         panel.add(skillDropdown)
 
@@ -101,14 +101,6 @@ class TrainingPlannerPanel(
             add(savedPlansPanel, BorderLayout.NORTH)
             background = ColorScheme.DARK_GRAY_COLOR
         }
-    }
-
-    private fun onSkillChanged() {
-        val skill = skillDropdown.selectedItem as? Skill ?: return
-        val maxLevel = calculatorUi.getStartLevel() ?: return
-        val methods = loadMethodsForSkill(skill, maxLevel)
-        methodList.setMethods(methods, skill, calculatorUi.expRequired)
-        tryAutoSave()
     }
 
     private fun onExpRequiredChanged(exp: Int?) {
