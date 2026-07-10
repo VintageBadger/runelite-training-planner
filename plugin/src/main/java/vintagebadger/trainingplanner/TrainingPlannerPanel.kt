@@ -21,11 +21,13 @@ import vintagebadger.trainingplanner.wiki.OutputItemRecipes
 import java.awt.BorderLayout
 import java.awt.Component
 import javax.swing.DefaultListCellRenderer
+import javax.swing.JButton
 import javax.swing.JComboBox
 import javax.swing.JLabel
 import javax.swing.JList
 import javax.swing.JPanel
 import javax.swing.JTabbedPane
+import javax.swing.SwingUtilities
 
 class TrainingPlannerPanel(
     private val config: TrainingPlannerConfig,
@@ -38,20 +40,27 @@ class TrainingPlannerPanel(
     private val planCalculator = RecipePlanCalculator()
     private val methodList = TrainingMethodList(itemManager, ::onMethodSelected)
     private val ownedQuantityPanel = OwnedQuantityPanel(itemManager)
+    private val saveButton = JButton("Save Plan").apply {
+        isEnabled = false
+        addActionListener { saveNewPlan() }
+    }
+    private val tabbedPane = JTabbedPane()
 
     private lateinit var savedPlansPanel: JPanel
     private lateinit var skillDropdown: JComboBox<Skill?>
     private var availableMethods: List<OutputItemRecipes> = emptyList()
     private var selectedGraph: ResolvedRecipeGraph? = null
     private var currentResults: Map<Int, Result<PlanResult>> = emptyMap()
-    private var lastSavedPlanIndex: Int? = null
+    private var currentOwnershipSnapshot = OwnedQuantitySnapshot(emptyMap(), includesBank = false)
+    private val savedPlanCards = mutableMapOf<Int, TrainingPlanCard>()
 
     init {
         add(JLabel("Training Planner"))
-        add(JTabbedPane().apply {
+        tabbedPane.apply {
             addTab("New Plan", buildNewPlanTab())
             addTab("Saved Plans", buildSavedPlansTab())
-        })
+        }
+        add(tabbedPane)
         snapshotService.setListener(::onOwnershipSnapshotChanged)
     }
 
@@ -96,6 +105,7 @@ class TrainingPlannerPanel(
         })
         panel.add(methodList)
         panel.add(ownedQuantityPanel)
+        panel.add(saveButton)
 
         return JPanel(BorderLayout()).apply {
             add(panel, BorderLayout.NORTH)
@@ -124,6 +134,7 @@ class TrainingPlannerPanel(
             selectedGraph = null
             methodList.setMethods(emptyList())
             ownedQuantityPanel.clearGraph()
+            updateSaveButtonState()
             return
         }
 
@@ -131,13 +142,13 @@ class TrainingPlannerPanel(
         methodList.setMethods(availableMethods)
         updateSelectedGraph()
         refreshPlanResults()
-        tryAutoSave()
+        updateSaveButtonState()
     }
 
     private fun onMethodSelected() {
         updateSelectedGraph()
         refreshPlanResults()
-        tryAutoSave()
+        updateSaveButtonState()
     }
 
     private fun updateSelectedGraph() {
@@ -170,75 +181,100 @@ class TrainingPlannerPanel(
     }
 
     private fun onOwnershipSnapshotChanged(snapshot: OwnedQuantitySnapshot) {
+        currentOwnershipSnapshot = snapshot
         ownedQuantityPanel.setSnapshot(snapshot)
         refreshPlanResults()
-        tryAutoSave()
+        savedPlanCards.values.forEach { card ->
+            card.updateOwnedQuantities(snapshot.quantities)
+        }
+        updateSaveButtonState()
     }
 
     fun shutDown() {
         snapshotService.clearListener()
     }
 
-    private fun tryAutoSave() {
-        val selectedSkill = skillDropdown.selectedItem as? Skill ?: return
-        val target = calculatorUi.target ?: return
-        if (target.targetXp <= target.startXp) return
-        val selectedMethod = methodList.getSelectedMethod() ?: return
-        if (currentResults[selectedMethod.id]?.isSuccess != true) return
-
-        val currentPlans = config.getTrainingPlans().plans.toMutableList()
-        val existing = lastSavedPlanIndex?.takeIf { it in currentPlans.indices }?.let(currentPlans::get)
-        val plan = TrainingPlan(
+    private fun buildCurrentPlan(): TrainingPlan? {
+        val selectedSkill = skillDropdown.selectedItem as? Skill ?: return null
+        val target = calculatorUi.target ?: return null
+        if (target.targetXp <= target.startXp) return null
+        val selectedMethod = methodList.getSelectedMethod() ?: return null
+        if (currentResults[selectedMethod.id]?.isSuccess != true) return null
+        return TrainingPlan(
             skill = selectedSkill.name,
             startLevel = target.startLevel,
             endLevel = target.endLevel,
             startXp = target.startXp,
             targetXp = target.targetXp,
             rootRecipeId = selectedMethod.id,
-            displayNameOverride = existing?.displayNameOverride,
             methodSelections = emptyMap(),
             ownedQuantities = relevantOwnedQuantities(),
         )
-
-        if (existing == plan) return
-        if (lastSavedPlanIndex != null && lastSavedPlanIndex in currentPlans.indices) {
-            currentPlans[lastSavedPlanIndex!!] = plan
-        } else {
-            currentPlans += plan
-            lastSavedPlanIndex = currentPlans.lastIndex
-        }
-        config.setTrainingPlans(TrainingPlanList(currentPlans))
-        refreshSavedPlans()
     }
 
-    fun refreshSavedPlans() {
+    private fun updateSaveButtonState() {
+        saveButton.isEnabled = buildCurrentPlan() != null
+    }
+
+    private fun saveNewPlan() {
+        val plan = buildCurrentPlan() ?: return
+        val currentPlans = config.getTrainingPlans().plans.toMutableList()
+        currentPlans += plan
+        val savedPlanIndex = currentPlans.lastIndex
+        config.setTrainingPlans(TrainingPlanList(currentPlans))
+        clearNewPlan()
+        refreshSavedPlans(expandedPlanIndex = savedPlanIndex)
+        tabbedPane.selectedIndex = SAVED_PLANS_TAB_INDEX
+    }
+
+    private fun clearNewPlan() {
+        methodList.clearSelection()
+        selectedGraph = null
+        availableMethods = emptyList()
+        currentResults = emptyMap()
+        ownedQuantityPanel.clearGraph()
+        skillDropdown.selectedItem = null
+        calculatorUi.clear()
+        updateSaveButtonState()
+    }
+
+    fun refreshSavedPlans(expandedPlanIndex: Int? = null) {
         savedPlansPanel.removeAll()
+        savedPlanCards.clear()
         val indexedPlans = config.trainingPlans.plans.withIndex()
             .sortedWith(compareBy({ it.value.skill }, { it.value.startXp }))
+        var expandedCard: TrainingPlanCard? = null
 
         if (indexedPlans.isEmpty()) {
             savedPlansPanel.add(JLabel("No plans yet").apply { alignmentX = CENTER_ALIGNMENT })
         } else {
             indexedPlans.forEach { indexed ->
-                savedPlansPanel.add(
-                    TrainingPlanCard(
-                        plan = indexed.value,
-                        planIndex = indexed.index,
-                        config = config,
-                        itemManager = itemManager,
-                        recipeRepository = recipeRepository,
-                        planCalculator = planCalculator,
-                        onPlanChanged = ::onPlanChanged,
-                    ).apply { alignmentX = CENTER_ALIGNMENT },
-                )
+                val card = TrainingPlanCard(
+                    plan = indexed.value,
+                    planIndex = indexed.index,
+                    config = config,
+                    itemManager = itemManager,
+                    recipeRepository = recipeRepository,
+                    planCalculator = planCalculator,
+                    initialOwnedQuantities = currentOwnershipSnapshot.quantities,
+                    initiallyExpanded = indexed.index == expandedPlanIndex,
+                    onPlanChanged = ::onPlanChanged,
+                ).apply { alignmentX = CENTER_ALIGNMENT }
+                savedPlanCards[indexed.index] = card
+                savedPlansPanel.add(card)
+                if (indexed.index == expandedPlanIndex) expandedCard = card
             }
         }
         savedPlansPanel.revalidate()
         savedPlansPanel.repaint()
+        expandedCard?.let { card ->
+            SwingUtilities.invokeLater {
+                card.scrollRectToVisible(java.awt.Rectangle(0, 0, card.width, card.height))
+            }
+        }
     }
 
     private fun onPlanChanged() {
-        lastSavedPlanIndex = null
         refreshSavedPlans()
     }
 
@@ -247,5 +283,9 @@ class TrainingPlannerPanel(
         return ownedQuantityPanel.getOwnedQuantities().filterKeys { itemId ->
             itemId != graph.rootItemId && graph.nodes.containsKey(itemId)
         }
+    }
+
+    private companion object {
+        const val SAVED_PLANS_TAB_INDEX = 1
     }
 }

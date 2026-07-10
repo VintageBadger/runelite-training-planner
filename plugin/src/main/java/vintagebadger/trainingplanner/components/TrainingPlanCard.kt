@@ -39,10 +39,14 @@ class TrainingPlanCard(
     private val itemManager: ItemManager,
     private val recipeRepository: TrainingRecipeRepository,
     private val planCalculator: RecipePlanCalculator,
+    initialOwnedQuantities: Map<Int, Long> = plan.ownedQuantities,
+    initiallyExpanded: Boolean = false,
     private val onPlanChanged: () -> Unit,
 ) : JPanel() {
-    private var isExpanded = false
+    private var isExpanded = initiallyExpanded
     private var isEditing = false
+    private var ownedQuantities = initialOwnedQuantities
+    private val expandedRecipeSteps = mutableMapOf<Int, Boolean>()
     private val headerPanel = JPanel()
     private val contentPanel = JPanel()
     private val skillDisplayName: String
@@ -146,7 +150,7 @@ class TrainingPlanCard(
             graph to planCalculator.solve(
                 graph = graph,
                 targetXpTenths = Math.multiplyExact(plan.xpRequired, 10L),
-                ownedQuantities = plan.ownedQuantities,
+                ownedQuantities = ownedQuantities,
             )
         }.getOrElse { error ->
             addInfoRow("Unavailable:", error.message ?: "Could not calculate this plan.")
@@ -229,12 +233,15 @@ class TrainingPlanCard(
             if (depth > 0) border = EmptyBorder(0, depth * 16, 0, 0)
         }
 
+        val isStepExpanded = expandedRecipeSteps[itemId] ?: true
+        bodyPanel.isVisible = isStepExpanded
         val toggle = if (children.isNotEmpty()) {
             IconToggleButton(
-                initialSelected = true,
+                initialSelected = isStepExpanded,
                 selectedIcon = Icon.ChevronDown.imageIcon,
                 unselectedIcon = Icon.ChevronRight.imageIcon,
             ) { expanded ->
+                expandedRecipeSteps[itemId] = expanded
                 bodyPanel.isVisible = expanded
                 this@TrainingPlanCard.revalidate()
                 this@TrainingPlanCard.repaint()
@@ -320,6 +327,17 @@ class TrainingPlanCard(
             if (!step.craftable) add("to acquire: ${NumberFormat.getNumberInstance().format(step.unitsToAcquire)}")
             if (step.surplusUnits > 0L) add("surplus: ${NumberFormat.getNumberInstance().format(step.surplusUnits)}")
         }.joinToString("; ")
+    }
+
+    fun updateOwnedQuantities(quantities: Map<Int, Long>) {
+        if (ownedQuantities == quantities) return
+
+        ownedQuantities = quantities
+        if (!isEditing) {
+            buildContent()
+            revalidate()
+            repaint()
+        }
     }
 
     private fun addSectionLabel(text: String) {

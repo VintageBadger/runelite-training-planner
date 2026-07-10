@@ -24,6 +24,12 @@ class TrainingMethodList(
 
     fun getSelectedMethod(): OutputItemRecipes? = selectedMethod
 
+    fun clearSelection() {
+        selectedMethod = null
+        selectedMethodId = null
+        setMethods(emptyList())
+    }
+
     fun setMethods(methods: List<OutputItemRecipes>) {
         val previouslySelected = selectedMethodId
         removeAll()

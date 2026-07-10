@@ -82,7 +82,20 @@ class LevelCalculatorUi : JPanel() {
 
     fun getTargetXp(): Long? = target?.targetXp
 
+    fun clear() {
+        updatingFields = true
+        modeDropdown.selectedItem = XpInputMode.LEVELS
+        levelInputs.startField.text = ""
+        levelInputs.endField.text = ""
+        xpInputs.startField.text = ""
+        xpInputs.endField.text = ""
+        cardLayout.show(inputCards, XpInputMode.LEVELS.name)
+        updatingFields = false
+        target = null
+    }
+
     private fun switchMode() {
+        if (updatingFields) return
         val mode = modeDropdown.selectedItem as XpInputMode
         updatingFields = true
         target?.let { current ->
