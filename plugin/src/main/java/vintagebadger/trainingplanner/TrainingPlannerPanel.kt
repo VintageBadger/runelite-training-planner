@@ -8,7 +8,7 @@ import net.runelite.client.ui.PluginPanel
 import vintagebadger.trainingplanner.components.OwnedQuantityPanel
 import vintagebadger.trainingplanner.components.TrainingMethodList
 import vintagebadger.trainingplanner.components.TrainingPlanCard
-import vintagebadger.trainingplanner.data.OwnedQuantitySnapshotResult
+import vintagebadger.trainingplanner.data.OwnedQuantitySnapshot
 import vintagebadger.trainingplanner.data.OwnedQuantitySnapshotService
 import vintagebadger.trainingplanner.data.ResolvedRecipeGraph
 import vintagebadger.trainingplanner.data.TrainingRecipeRepository
@@ -37,11 +37,7 @@ class TrainingPlannerPanel(
     private val recipeRepository = TrainingRecipeRepository(gson)
     private val planCalculator = RecipePlanCalculator()
     private val methodList = TrainingMethodList(itemManager, ::onMethodSelected)
-    private val ownedQuantityPanel = OwnedQuantityPanel(
-        itemManager = itemManager,
-        onSnapshotRequested = ::captureOwnedQuantities,
-        onChanged = ::onOwnedQuantitiesChanged,
-    )
+    private val ownedQuantityPanel = OwnedQuantityPanel(itemManager)
 
     private lateinit var savedPlansPanel: JPanel
     private lateinit var skillDropdown: JComboBox<Skill?>
@@ -56,6 +52,7 @@ class TrainingPlannerPanel(
             addTab("New Plan", buildNewPlanTab())
             addTab("Saved Plans", buildSavedPlansTab())
         })
+        snapshotService.setListener(::onOwnershipSnapshotChanged)
     }
 
     private fun buildNewPlanTab(): JPanel {
@@ -154,7 +151,7 @@ class TrainingPlannerPanel(
             recipeRepository.resolveGraph(method, skill)
         }.getOrNull()
         selectedGraph?.let { graph ->
-            ownedQuantityPanel.setGraph(graph, ownedQuantityPanel.getOwnedQuantities())
+            ownedQuantityPanel.setGraph(graph)
         } ?: ownedQuantityPanel.clearGraph()
     }
 
@@ -172,22 +169,14 @@ class TrainingPlannerPanel(
         methodList.setPlanResults(currentResults)
     }
 
-    private fun onOwnedQuantitiesChanged() {
+    private fun onOwnershipSnapshotChanged(snapshot: OwnedQuantitySnapshot) {
+        ownedQuantityPanel.setSnapshot(snapshot)
         refreshPlanResults()
         tryAutoSave()
     }
 
-    private fun captureOwnedQuantities() {
-        snapshotService.capture { result ->
-            when (result) {
-                is OwnedQuantitySnapshotResult.Captured -> {
-                    ownedQuantityPanel.setOwnedQuantities(result.quantities)
-                    ownedQuantityPanel.showSnapshotCaptured()
-                    onOwnedQuantitiesChanged()
-                }
-                OwnedQuantitySnapshotResult.BankUnavailable -> ownedQuantityPanel.showBankUnavailable()
-            }
-        }
+    fun shutDown() {
+        snapshotService.clearListener()
     }
 
     private fun tryAutoSave() {

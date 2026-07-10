@@ -11,10 +11,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import javax.swing.SwingUtilities
 
-sealed class OwnedQuantitySnapshotResult {
-    data class Captured(val quantities: Map<Int, Long>) : OwnedQuantitySnapshotResult()
-    object BankUnavailable : OwnedQuantitySnapshotResult()
-}
+data class OwnedQuantitySnapshot(
+    val quantities: Map<Int, Long>,
+    val includesBank: Boolean,
+)
 
 @Singleton
 class OwnedQuantitySnapshotService @Inject constructor(
@@ -23,31 +23,61 @@ class OwnedQuantitySnapshotService @Inject constructor(
     private val itemManager: ItemManager,
 ) {
     private var lastBankQuantities: Map<Int, Long>? = null
+    private var lastInventoryQuantities: Map<Int, Long>? = null
+    @Volatile
+    private var listener: ((OwnedQuantitySnapshot) -> Unit)? = null
+
+    fun setListener(listener: (OwnedQuantitySnapshot) -> Unit) {
+        this.listener = listener
+        refresh()
+    }
+
+    fun clearListener() {
+        listener = null
+    }
 
     fun onItemContainerChanged(event: ItemContainerChanged) {
-        if (event.containerId == InventoryID.BANK) {
-            lastBankQuantities = quantitiesIn(event.itemContainer)
-        }
-    }
-
-    fun clearBankSnapshot() {
-        lastBankQuantities = null
-    }
-
-    fun capture(callback: (OwnedQuantitySnapshotResult) -> Unit) {
-        clientThread.invoke(Runnable {
-            val bank = lastBankQuantities
-                ?: client.getItemContainer(InventoryID.BANK)?.let(::quantitiesIn)
-            val result = if (bank == null) {
-                OwnedQuantitySnapshotResult.BankUnavailable
-            } else {
-                val inventory = client.getItemContainer(InventoryID.INV)
-                    ?.let(::quantitiesIn)
-                    .orEmpty()
-                OwnedQuantitySnapshotResult.Captured(combineQuantityMaps(bank, inventory))
+        val changed = when (event.containerId) {
+            InventoryID.BANK -> {
+                lastBankQuantities = quantitiesIn(event.itemContainer)
+                true
             }
-            SwingUtilities.invokeLater { callback(result) }
+            InventoryID.INV -> {
+                lastInventoryQuantities = quantitiesIn(event.itemContainer)
+                true
+            }
+            else -> false
+        }
+        if (changed) publish()
+    }
+
+    fun clearSnapshots() {
+        lastBankQuantities = null
+        lastInventoryQuantities = null
+        publish()
+    }
+
+    private fun refresh() {
+        clientThread.invoke(Runnable {
+            client.getItemContainer(InventoryID.INV)?.let {
+                lastInventoryQuantities = quantitiesIn(it)
+            }
+            client.getItemContainer(InventoryID.BANK)?.let {
+                lastBankQuantities = quantitiesIn(it)
+            }
+            publish()
         })
+    }
+
+    private fun publish() {
+        if (listener == null) return
+        val bank = lastBankQuantities
+        val inventory = lastInventoryQuantities.orEmpty()
+        val snapshot = OwnedQuantitySnapshot(
+            quantities = if (bank == null) inventory else combineQuantityMaps(bank, inventory),
+            includesBank = bank != null,
+        )
+        SwingUtilities.invokeLater { listener?.invoke(snapshot) }
     }
 
     private fun quantitiesIn(container: ItemContainer): Map<Int, Long> {

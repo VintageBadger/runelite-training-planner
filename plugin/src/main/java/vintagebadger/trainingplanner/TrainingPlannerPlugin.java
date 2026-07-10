@@ -64,6 +64,10 @@ public class TrainingPlannerPlugin  extends Plugin{
     {
         log.debug("Training Planner stopped!");
         clientToolbar.removeNavigation(navButton);
+        if (panel != null)
+        {
+            panel.shutDown();
+        }
         panel = null;
         navButton = null;
     }
@@ -73,7 +77,7 @@ public class TrainingPlannerPlugin  extends Plugin{
     {
         if (gameStateChanged.getGameState() == GameState.LOGIN_SCREEN)
         {
-            snapshotService.clearBankSnapshot();
+            snapshotService.clearSnapshots();
         }
         if (gameStateChanged.getGameState() == GameState.LOGGED_IN)
         {
