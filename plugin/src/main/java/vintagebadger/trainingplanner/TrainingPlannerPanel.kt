@@ -1,88 +1,104 @@
 package vintagebadger.trainingplanner
 
 import com.google.gson.Gson
-import net.runelite.api.Client
 import net.runelite.client.game.ItemManager
 import net.runelite.client.ui.ColorScheme
 import net.runelite.client.ui.DynamicGridLayout
 import net.runelite.client.ui.PluginPanel
+import vintagebadger.trainingplanner.components.OwnedQuantityPanel
 import vintagebadger.trainingplanner.components.TrainingMethodList
 import vintagebadger.trainingplanner.components.TrainingPlanCard
+import vintagebadger.trainingplanner.data.OwnedQuantitySnapshotResult
+import vintagebadger.trainingplanner.data.OwnedQuantitySnapshotService
+import vintagebadger.trainingplanner.data.ResolvedRecipeGraph
 import vintagebadger.trainingplanner.data.TrainingRecipeRepository
 import vintagebadger.trainingplanner.models.Skill
 import vintagebadger.trainingplanner.models.TrainingPlan
 import vintagebadger.trainingplanner.models.TrainingPlanList
+import vintagebadger.trainingplanner.planning.PlanResult
+import vintagebadger.trainingplanner.planning.RecipePlanCalculator
 import vintagebadger.trainingplanner.wiki.OutputItemRecipes
 import java.awt.BorderLayout
+import java.awt.Component
 import javax.swing.DefaultListCellRenderer
 import javax.swing.JComboBox
-import javax.swing.JList
 import javax.swing.JLabel
+import javax.swing.JList
 import javax.swing.JPanel
 import javax.swing.JTabbedPane
-import java.awt.Component
 
 class TrainingPlannerPanel(
-    client: Client,
     private val config: TrainingPlannerConfig,
     private val itemManager: ItemManager,
     gson: Gson,
+    private val snapshotService: OwnedQuantitySnapshotService,
 ) : PluginPanel() {
-
     private val calculatorUi = LevelCalculatorUi()
-    private val methodList = TrainingMethodList(itemManager, ::tryAutoSave)
     private val recipeRepository = TrainingRecipeRepository(gson)
+    private val planCalculator = RecipePlanCalculator()
+    private val methodList = TrainingMethodList(itemManager, ::onMethodSelected)
+    private val ownedQuantityPanel = OwnedQuantityPanel(
+        itemManager = itemManager,
+        onSnapshotRequested = ::captureOwnedQuantities,
+        onChanged = ::onOwnedQuantitiesChanged,
+    )
 
     private lateinit var savedPlansPanel: JPanel
     private lateinit var skillDropdown: JComboBox<Skill?>
-
+    private var availableMethods: List<OutputItemRecipes> = emptyList()
+    private var selectedGraph: ResolvedRecipeGraph? = null
+    private var currentResults: Map<Int, Result<PlanResult>> = emptyMap()
     private var lastSavedPlanIndex: Int? = null
 
     init {
         add(JLabel("Training Planner"))
-
-        val tabbedPane = JTabbedPane()
-        tabbedPane.addTab("New Plan", buildNewPlanTab())
-        tabbedPane.addTab("Saved Plans", buildSavedPlansTab())
-        add(tabbedPane)
+        add(JTabbedPane().apply {
+            addTab("New Plan", buildNewPlanTab())
+            addTab("Saved Plans", buildSavedPlansTab())
+        })
     }
 
     private fun buildNewPlanTab(): JPanel {
         val panel = JPanel().apply {
             layout = DynamicGridLayout(0, 1, 0, 3)
+            background = ColorScheme.DARK_GRAY_COLOR
         }
-
         skillDropdown = JComboBox<Skill?>(Skill.entries.toTypedArray()).apply {
             selectedItem = null
             renderer = object : DefaultListCellRenderer() {
                 override fun getListCellRendererComponent(
-                    list: JList<*>?, value: Any?, index: Int,
-                    isSelected: Boolean, cellHasFocus: Boolean
+                    list: JList<*>?,
+                    value: Any?,
+                    index: Int,
+                    isSelected: Boolean,
+                    cellHasFocus: Boolean,
                 ): Component {
-                    val component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-                    text = when {
-                        value == null -> "Select a Skill"
-                        value is Skill -> value.displayName
+                    val component = super.getListCellRendererComponent(
+                        list,
+                        value,
+                        index,
+                        isSelected,
+                        cellHasFocus,
+                    )
+                    text = when (value) {
+                        null -> "Select a Skill"
+                        is Skill -> value.displayName
                         else -> value.toString()
                     }
                     return component
                 }
             }
-            addActionListener { onExpRequiredChanged(calculatorUi.expRequired) }
+            addActionListener { refreshMethods() }
         }
         panel.add(skillDropdown)
-
         panel.add(calculatorUi)
-
-        calculatorUi.onExpRequiredChanged = { exp ->
-            onExpRequiredChanged(exp)
-        }
-
+        calculatorUi.onTargetChanged = { refreshMethods() }
         panel.add(JLabel("Select a Training Method").apply {
             font = net.runelite.client.ui.FontManager.getRunescapeBoldFont()
             foreground = java.awt.Color.WHITE
         })
         panel.add(methodList)
+        panel.add(ownedQuantityPanel)
 
         return JPanel(BorderLayout()).apply {
             add(panel, BorderLayout.NORTH)
@@ -91,11 +107,10 @@ class TrainingPlannerPanel(
     }
 
     private fun buildSavedPlansTab(): JPanel {
-        val wrapper = JPanel().apply {
+        savedPlansPanel = JPanel().apply {
             layout = javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS)
             background = ColorScheme.DARK_GRAY_COLOR
         }
-        savedPlansPanel = wrapper
         refreshSavedPlans()
         return JPanel(BorderLayout()).apply {
             add(savedPlansPanel, BorderLayout.NORTH)
@@ -103,76 +118,132 @@ class TrainingPlannerPanel(
         }
     }
 
-    private fun onExpRequiredChanged(exp: Int?) {
-        val skill = skillDropdown.selectedItem as? Skill ?: return
-        val maxLevel = calculatorUi.getStartLevel() ?: return
-        val methods = loadMethodsForSkill(skill, maxLevel)
-        methodList.setMethods(methods, skill, exp)
+    private fun refreshMethods() {
+        val skill = skillDropdown.selectedItem as? Skill
+        val target = calculatorUi.target
+        if (skill == null || target == null) {
+            availableMethods = emptyList()
+            currentResults = emptyMap()
+            selectedGraph = null
+            methodList.setMethods(emptyList())
+            ownedQuantityPanel.clearGraph()
+            return
+        }
+
+        availableMethods = recipeRepository.methodsFor(skill, target.startLevel)
+        methodList.setMethods(availableMethods)
+        updateSelectedGraph()
+        refreshPlanResults()
         tryAutoSave()
     }
 
-    private fun loadMethodsForSkill(skill: Skill, maxLevel: Int): List<OutputItemRecipes> =
-        recipeRepository.methodsFor(skill, maxLevel)
+    private fun onMethodSelected() {
+        updateSelectedGraph()
+        refreshPlanResults()
+        tryAutoSave()
+    }
+
+    private fun updateSelectedGraph() {
+        val skill = skillDropdown.selectedItem as? Skill ?: return
+        val method = methodList.getSelectedMethod() ?: run {
+            selectedGraph = null
+            ownedQuantityPanel.clearGraph()
+            return
+        }
+        selectedGraph = runCatching {
+            recipeRepository.resolveGraph(method, skill)
+        }.getOrNull()
+        selectedGraph?.let { graph ->
+            ownedQuantityPanel.setGraph(graph, ownedQuantityPanel.getOwnedQuantities())
+        } ?: ownedQuantityPanel.clearGraph()
+    }
+
+    private fun refreshPlanResults() {
+        val skill = skillDropdown.selectedItem as? Skill ?: return
+        val target = calculatorUi.target ?: return
+        val owned = ownedQuantityPanel.getOwnedQuantities()
+        val targetTenths = Math.multiplyExact(target.xpRequired, 10L)
+        currentResults = availableMethods.associate { output ->
+            output.id to runCatching {
+                val graph = recipeRepository.resolveGraph(output, skill)
+                planCalculator.solve(graph, targetTenths, owned)
+            }
+        }
+        methodList.setPlanResults(currentResults)
+    }
+
+    private fun onOwnedQuantitiesChanged() {
+        refreshPlanResults()
+        tryAutoSave()
+    }
+
+    private fun captureOwnedQuantities() {
+        snapshotService.capture { result ->
+            when (result) {
+                is OwnedQuantitySnapshotResult.Captured -> {
+                    ownedQuantityPanel.setOwnedQuantities(result.quantities)
+                    ownedQuantityPanel.showSnapshotCaptured()
+                    onOwnedQuantitiesChanged()
+                }
+                OwnedQuantitySnapshotResult.BankUnavailable -> ownedQuantityPanel.showBankUnavailable()
+            }
+        }
+    }
 
     private fun tryAutoSave() {
         val selectedSkill = skillDropdown.selectedItem as? Skill ?: return
-        val startLevel = calculatorUi.getStartLevel() ?: return
-        val endLevel = calculatorUi.getEndLevel() ?: return
+        val target = calculatorUi.target ?: return
+        if (target.targetXp <= target.startXp) return
         val selectedMethod = methodList.getSelectedMethod() ?: return
-
-        val plan = TrainingPlan(
-            skill = selectedSkill.name,
-            startLevel = startLevel,
-            endLevel = endLevel,
-            trainingMethod = selectedMethod
-        )
+        if (currentResults[selectedMethod.id]?.isSuccess != true) return
 
         val currentPlans = config.getTrainingPlans().plans.toMutableList()
+        val existing = lastSavedPlanIndex?.takeIf { it in currentPlans.indices }?.let(currentPlans::get)
+        val plan = TrainingPlan(
+            skill = selectedSkill.name,
+            startLevel = target.startLevel,
+            endLevel = target.endLevel,
+            startXp = target.startXp,
+            targetXp = target.targetXp,
+            rootRecipeId = selectedMethod.id,
+            displayNameOverride = existing?.displayNameOverride,
+            methodSelections = emptyMap(),
+            ownedQuantities = relevantOwnedQuantities(),
+        )
 
-        if (lastSavedPlanIndex != null && lastSavedPlanIndex!! in currentPlans.indices) {
-            val existing = currentPlans[lastSavedPlanIndex!!]
-            if (existing.skill == plan.skill &&
-                existing.startLevel == plan.startLevel &&
-                existing.endLevel == plan.endLevel &&
-                existing.trainingMethod.id == plan.trainingMethod.id
-            ) {
-                return
-            }
+        if (existing == plan) return
+        if (lastSavedPlanIndex != null && lastSavedPlanIndex in currentPlans.indices) {
             currentPlans[lastSavedPlanIndex!!] = plan
         } else {
-            currentPlans.add(plan)
+            currentPlans += plan
             lastSavedPlanIndex = currentPlans.lastIndex
         }
-
         config.setTrainingPlans(TrainingPlanList(currentPlans))
         refreshSavedPlans()
     }
 
     fun refreshSavedPlans() {
         savedPlansPanel.removeAll()
+        val indexedPlans = config.trainingPlans.plans.withIndex()
+            .sortedWith(compareBy({ it.value.skill }, { it.value.startXp }))
 
-        val plans = config.trainingPlans.plans
-            .sortedWith(compareBy({ it.skill }, { it.startLevel }))
-
-        if (plans.isEmpty()) {
-            savedPlansPanel.add(JLabel("No plans yet").apply {
-                alignmentX = CENTER_ALIGNMENT
-            })
+        if (indexedPlans.isEmpty()) {
+            savedPlansPanel.add(JLabel("No plans yet").apply { alignmentX = CENTER_ALIGNMENT })
         } else {
-            val unsortedPlans = config.trainingPlans.plans
-            plans.forEach { plan ->
-                val originalIndex = unsortedPlans.indexOfFirst {
-                    it.skill == plan.skill &&
-                            it.startLevel == plan.startLevel &&
-                            it.endLevel == plan.endLevel &&
-                            it.trainingMethod.id == plan.trainingMethod.id
-                }
-                val card = TrainingPlanCard(plan, originalIndex, config, itemManager, recipeRepository, ::onPlanChanged)
-                card.alignmentX = CENTER_ALIGNMENT
-                savedPlansPanel.add(card)
+            indexedPlans.forEach { indexed ->
+                savedPlansPanel.add(
+                    TrainingPlanCard(
+                        plan = indexed.value,
+                        planIndex = indexed.index,
+                        config = config,
+                        itemManager = itemManager,
+                        recipeRepository = recipeRepository,
+                        planCalculator = planCalculator,
+                        onPlanChanged = ::onPlanChanged,
+                    ).apply { alignmentX = CENTER_ALIGNMENT },
+                )
             }
         }
-
         savedPlansPanel.revalidate()
         savedPlansPanel.repaint()
     }
@@ -180,5 +251,12 @@ class TrainingPlannerPanel(
     private fun onPlanChanged() {
         lastSavedPlanIndex = null
         refreshSavedPlans()
+    }
+
+    private fun relevantOwnedQuantities(): Map<Int, Long> {
+        val graph = selectedGraph ?: return emptyMap()
+        return ownedQuantityPanel.getOwnedQuantities().filterKeys { itemId ->
+            itemId != graph.rootItemId && graph.nodes.containsKey(itemId)
+        }
     }
 }

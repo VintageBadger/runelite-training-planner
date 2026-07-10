@@ -1,7 +1,7 @@
 package vintagebadger.trainingplanner.wiki
 
 data class RecipeGraph(
-    val version: Int = 1,
+    val version: Int = 2,
     val recipes: List<OutputItemRecipes> = emptyList()
 )
 
@@ -12,7 +12,9 @@ data class OutputItemRecipes(
 )
 
 data class FlatRecipe(
+    val methodKey: String? = null,
     val method: String = "",
+    val outputQuantity: Int = 1,
     val skills: List<SkillRequirement> = emptyList(),
     val requires: List<IngredientRef> = emptyList()
 )

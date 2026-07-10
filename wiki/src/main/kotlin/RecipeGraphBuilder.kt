@@ -1,5 +1,7 @@
 package vintagebadger.trainingplanner.wiki
 
+import java.security.MessageDigest
+
 private data class ResolvedIngredient(
     val id: Int,
     val name: String,
@@ -59,7 +61,15 @@ internal class RecipeGraphBuilder(
             }
 
             FlatRecipe(
+                methodKey = buildMethodKey(
+                    outputId = outputId,
+                    method = recipe.method,
+                    outputQuantity = recipe.outputQuantity,
+                    skills = recipe.skills,
+                    ingredients = resolvedIngredients,
+                ),
                 method = recipe.method,
+                outputQuantity = recipe.outputQuantity,
                 skills = recipe.skills,
                 requires = resolvedIngredients.map {
                     IngredientRef(
@@ -112,5 +122,44 @@ internal class RecipeGraphBuilder(
         itemNameById[identity.id] = identity.name
 
         return ResolvedIngredient(id = identity.id, name = identity.name, quantity = ingredient.quantity)
+    }
+
+    private fun buildMethodKey(
+        outputId: Int,
+        method: String,
+        outputQuantity: Int,
+        skills: List<SkillRequirement>,
+        ingredients: List<ResolvedIngredient>,
+    ): String {
+        val signature = buildString {
+            append(outputId)
+            append('|')
+            append(normalizeTitle(method))
+            append('|')
+            append(outputQuantity)
+            ingredients.sortedWith(compareBy(ResolvedIngredient::id, ResolvedIngredient::quantity)).forEach {
+                append('|')
+                append(it.id)
+                append(':')
+                append(it.quantity)
+            }
+            skills.sortedBy { normalizeTitle(it.skill) }.forEach {
+                append('|')
+                append(normalizeTitle(it.skill))
+                append(':')
+                append(it.level)
+                append(':')
+                append(it.xp)
+            }
+        }
+        val digest = MessageDigest.getInstance("SHA-256")
+            .digest(signature.toByteArray(Charsets.UTF_8))
+            .take(6)
+            .joinToString("") { "%02x".format(it) }
+        val prefix = normalizeTitle(method)
+            .replace(Regex("[^a-z0-9]+"), "-")
+            .trim('-')
+            .ifBlank { "method" }
+        return "$prefix-$digest"
     }
 }

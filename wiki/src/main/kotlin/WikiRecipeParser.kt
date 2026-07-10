@@ -7,6 +7,7 @@ internal data class ItemIdentity(
 
 internal data class RecipeRequirement(
     val method: String,
+    val outputQuantity: Int,
     val skills: List<SkillRequirement>,
     val items: List<IngredientRequirement>
 )
@@ -49,11 +50,22 @@ internal fun parseRecipeRequirements(wikitext: String, targetName: String): List
             val params = parseTemplateParams(recipe)
             val outputs = params.entries
                 .filter { (key, value) -> key.matches(Regex("""output\d+""")) && value.isNotBlank() }
-                .map { (_, value) -> normalizeTitle(value) }
+            val matchingOutputNumber = outputs
+                .firstOrNull { (_, value) -> normalizeTitle(value) == normalizeTitle(targetName) }
+                ?.key
+                ?.removePrefix("output")
 
-            if (outputs.isNotEmpty() && normalizeTitle(targetName) !in outputs) {
+            if (outputs.isNotEmpty() && matchingOutputNumber == null) {
                 return@mapIndexed null
             }
+
+            val outputQuantity = matchingOutputNumber
+                ?.let { params["output${it}quantity"] }
+                ?.trim()
+                ?.replace(",", "")
+                ?.toIntOrNull()
+                ?.takeIf { it > 0 }
+                ?: 1
 
             val items = params
                 .entries
@@ -75,6 +87,7 @@ internal fun parseRecipeRequirements(wikitext: String, targetName: String): List
             } else {
                 RecipeRequirement(
                     method = method,
+                    outputQuantity = outputQuantity,
                     skills = parseSkillRequirements(params, method),
                     items = items
                 )
