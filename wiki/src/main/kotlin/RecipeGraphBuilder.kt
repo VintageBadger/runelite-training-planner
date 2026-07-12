@@ -22,16 +22,22 @@ internal class RecipeGraphBuilder(
     }
 
     fun build(titles: Iterable<String>): RecipeGraph {
-        titles
+        val requestedTitles = titles
             .map { it.trim() }
             .filter { it.isNotBlank() }
             .distinctBy(::normalizeTitle)
-            .forEach(::crawl)
+        WikiLog.log.debug("Starting recipe graph build for {} requested item(s)", requestedTitles.size)
+        requestedTitles.forEach(::crawl)
+        WikiLog.log.debug("Finished recipe graph build with {} output item(s)", recipes.size)
         return RecipeGraph(recipes = recipes)
     }
 
     private fun crawl(title: String) {
-        val page = fetchCached(title)
+        WikiLog.log.debug("Crawling recipe item '{}'", title)
+        val page = fetchCached(title) ?: run {
+            WikiLog.log.warn("Skipping recipe item '{}' because its wiki page was not found", title)
+            return
+        }
         val identity = parseIdentity(page.wikitext, requestedName = title) ?: ItemIdentity(null, page.title)
         val outputId = identity.id
 
@@ -39,13 +45,16 @@ internal class RecipeGraphBuilder(
             System.err.println("Warning: skipping '${identity.name}' because no item ID was found")
             return
         }
+        WikiLog.log.debug("Resolved '{}' to item '{}' (ID {})", title, identity.name, outputId)
         itemNameById[outputId] = identity.name
 
         if (!processedIds.add(outputId)) {
+            WikiLog.log.debug("Skipping already processed item '{}' (ID {})", identity.name, outputId)
             return
         }
 
         val recipes = parseRecipeRequirements(page.wikitext, targetName = identity.name)
+        WikiLog.log.debug("Parsed {} recipe method(s) for '{}'", recipes.size, identity.name)
         if (recipes.isEmpty()) {
             warnIfRecipesTargetOtherOutputs(page.wikitext, identity.name)
         }
@@ -89,11 +98,12 @@ internal class RecipeGraphBuilder(
             )
         }
 
-        flatRecipes
+        val ingredientIds = flatRecipes
             .flatMap { it.requires }
             .map { it.id }
             .distinct()
-            .forEach { ingredientId ->
+        WikiLog.log.debug("Recursing from '{}' into {} unique ingredient(s)", identity.name, ingredientIds.size)
+        ingredientIds.forEach { ingredientId ->
                 val ingredientName = itemNameById[ingredientId]
                 if (ingredientName != null) {
                     crawl(ingredientName)
@@ -101,19 +111,33 @@ internal class RecipeGraphBuilder(
             }
     }
 
-    private fun fetchCached(title: String): WikiPage {
+    private fun fetchCached(title: String): WikiPage? {
         val key = normalizeTitle(title)
-        return pageCache.getOrPut(key) {
-            wikiClient.fetchPage(title)
+        pageCache[key]?.let {
+            WikiLog.log.debug("Using cached wiki page for '{}'", title)
+            return it
         }
+        val page = wikiClient.fetchPage(title) ?: return null
+        pageCache[key] = page
+        return page
     }
 
     private fun resolveIngredient(ingredient: IngredientRequirement): ResolvedIngredient? {
         val key = normalizeTitle(ingredient.name)
-        val identity = identityCache.getOrPut(key) {
-            val page = fetchCached(ingredient.name)
-            parseIdentity(page.wikitext, requestedName = ingredient.name) ?: ItemIdentity(null, page.title)
+        val cachedIdentity = identityCache[key]
+        val identity = cachedIdentity ?: run {
+            val page = fetchCached(ingredient.name) ?: return null
+            identityCache.getOrPut(key) {
+                parseIdentity(page.wikitext, requestedName = ingredient.name) ?: ItemIdentity(null, page.title)
+            }
         }
+        WikiLog.log.debug(
+            "Resolved ingredient '{}'{} to '{}' (ID {})",
+            ingredient.name,
+            if (cachedIdentity == null) "" else " from cache",
+            identity.name,
+            identity.id
+        )
 
         if (identity.id == null) {
             System.err.println("Warning: skipping '${ingredient.name}' because no item ID was found")

@@ -18,7 +18,10 @@ internal data class IngredientRequirement(
 )
 
 internal fun parseIdentity(wikitext: String, requestedName: String): ItemIdentity? {
-    val infobox = findTemplates(wikitext, "Infobox Item").firstOrNull() ?: return null
+    val infobox = findTemplates(wikitext, "Infobox Item").firstOrNull() ?: run {
+        WikiLog.log.debug("No item infobox found while parsing identity for '{}'", requestedName)
+        return null
+    }
     val params = parseTemplateParams(infobox)
 
     val requested = normalizeTitle(requestedName)
@@ -28,7 +31,9 @@ internal fun parseIdentity(wikitext: String, requestedName: String): ItemIdentit
     for (number in variantNumbers) {
         val name = params["name$number"]?.let(::cleanWikiText) ?: continue
         if (normalizeTitle(name) == requested) {
-            return ItemIdentity(params["id$number"]?.toIntOrNull(), name)
+            return ItemIdentity(params["id$number"]?.toIntOrNull(), name).also {
+                WikiLog.log.debug("Matched '{}' to infobox variant '{}' (ID {})", requestedName, it.name, it.id)
+            }
         }
     }
 
@@ -39,13 +44,20 @@ internal fun parseIdentity(wikitext: String, requestedName: String): ItemIdentit
     val id = params["id"]?.toIntOrNull()
         ?: defaultVariant?.let { params["id$it"]?.toIntOrNull() }
         ?: params["id1"]?.toIntOrNull()
-    return name?.let { ItemIdentity(id, it) }
+    return name?.let { ItemIdentity(id, it) }?.also {
+        WikiLog.log.debug("Parsed identity for '{}': '{}' (ID {})", requestedName, it.name, it.id)
+    }
 }
 
 internal fun parseRecipeRequirements(wikitext: String, targetName: String): List<RecipeRequirement> {
-    val creation = extractCreationSection(wikitext) ?: return emptyList()
+    val creation = extractCreationSection(wikitext) ?: run {
+        WikiLog.log.debug("No Creation section found for '{}'", targetName)
+        return emptyList()
+    }
 
-    return findTemplates(creation, "Recipe")
+    val recipeTemplates = findTemplates(creation, "Recipe")
+    WikiLog.log.debug("Found {} recipe template(s) in the Creation section for '{}'", recipeTemplates.size, targetName)
+    return recipeTemplates
         .mapIndexed { index, recipe ->
             val params = parseTemplateParams(recipe)
             val outputs = params.entries
@@ -94,6 +106,9 @@ internal fun parseRecipeRequirements(wikitext: String, targetName: String): List
             }
         }
         .filterNotNull()
+        .also { recipes ->
+            WikiLog.log.debug("Accepted {} recipe method(s) for '{}'", recipes.size, targetName)
+        }
 }
 
 private fun parseSkillRequirements(params: Map<String, String>, method: String): List<SkillRequirement> {

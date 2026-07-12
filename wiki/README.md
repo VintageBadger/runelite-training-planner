@@ -20,6 +20,7 @@ Use `-Pitem=...` for names containing apostrophes because Gradle's `--args` pars
 Use `-Pitems=...` or `--items` with comma-separated names to crawl multiple requested items in one run. Shared sub-components are deduplicated by item ID, so an ingredient tree that appears under more than one requested item is written once.
 Use `-Poutput=...`, `-Pout=...`, `--output ...`, or `-o ...` to save the combined graph to one JSON file instead of printing it to stdout.
 Wiki requests are rate-limited to one request every 250 ms by default. Set `OSRS_WIKI_REQUEST_DELAY_MS` to override the delay, or `0` to disable it.
+The Gradle `run` task logs each crawl, cache lookup, fetch, identity resolution, recipe-parse, and output step at DEBUG level by default. Use `-PwikiLogLevel=info` to reduce this output.
 
 The output shape is:
 
