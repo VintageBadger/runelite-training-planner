@@ -7,6 +7,7 @@ internal data class ItemIdentity(
 
 internal data class RecipeRequirement(
     val method: String,
+    val outputQuantity: Int,
     val skills: List<SkillRequirement>,
     val items: List<IngredientRequirement>
 )
@@ -17,7 +18,10 @@ internal data class IngredientRequirement(
 )
 
 internal fun parseIdentity(wikitext: String, requestedName: String): ItemIdentity? {
-    val infobox = findTemplates(wikitext, "Infobox Item").firstOrNull() ?: return null
+    val infobox = findTemplates(wikitext, "Infobox Item").firstOrNull() ?: run {
+        WikiLog.log.debug("No item infobox found while parsing identity for '{}'", requestedName)
+        return null
+    }
     val params = parseTemplateParams(infobox)
 
     val requested = normalizeTitle(requestedName)
@@ -27,7 +31,9 @@ internal fun parseIdentity(wikitext: String, requestedName: String): ItemIdentit
     for (number in variantNumbers) {
         val name = params["name$number"]?.let(::cleanWikiText) ?: continue
         if (normalizeTitle(name) == requested) {
-            return ItemIdentity(params["id$number"]?.toIntOrNull(), name)
+            return ItemIdentity(params["id$number"]?.toIntOrNull(), name).also {
+                WikiLog.log.debug("Matched '{}' to infobox variant '{}' (ID {})", requestedName, it.name, it.id)
+            }
         }
     }
 
@@ -38,22 +44,40 @@ internal fun parseIdentity(wikitext: String, requestedName: String): ItemIdentit
     val id = params["id"]?.toIntOrNull()
         ?: defaultVariant?.let { params["id$it"]?.toIntOrNull() }
         ?: params["id1"]?.toIntOrNull()
-    return name?.let { ItemIdentity(id, it) }
+    return name?.let { ItemIdentity(id, it) }?.also {
+        WikiLog.log.debug("Parsed identity for '{}': '{}' (ID {})", requestedName, it.name, it.id)
+    }
 }
 
 internal fun parseRecipeRequirements(wikitext: String, targetName: String): List<RecipeRequirement> {
-    val creation = extractCreationSection(wikitext) ?: return emptyList()
+    val creation = extractCreationSection(wikitext) ?: run {
+        WikiLog.log.debug("No Creation section found for '{}'", targetName)
+        return emptyList()
+    }
 
-    return findTemplates(creation, "Recipe")
+    val recipeTemplates = findTemplates(creation, "Recipe")
+    WikiLog.log.debug("Found {} recipe template(s) in the Creation section for '{}'", recipeTemplates.size, targetName)
+    return recipeTemplates
         .mapIndexed { index, recipe ->
             val params = parseTemplateParams(recipe)
             val outputs = params.entries
                 .filter { (key, value) -> key.matches(Regex("""output\d+""")) && value.isNotBlank() }
-                .map { (_, value) -> normalizeTitle(value) }
+            val matchingOutputNumber = outputs
+                .firstOrNull { (_, value) -> normalizeTitle(value) == normalizeTitle(targetName) }
+                ?.key
+                ?.removePrefix("output")
 
-            if (outputs.isNotEmpty() && normalizeTitle(targetName) !in outputs) {
+            if (outputs.isNotEmpty() && matchingOutputNumber == null) {
                 return@mapIndexed null
             }
+
+            val outputQuantity = matchingOutputNumber
+                ?.let { params["output${it}quantity"] }
+                ?.trim()
+                ?.replace(",", "")
+                ?.toIntOrNull()
+                ?.takeIf { it > 0 }
+                ?: 1
 
             val items = params
                 .entries
@@ -75,12 +99,16 @@ internal fun parseRecipeRequirements(wikitext: String, targetName: String): List
             } else {
                 RecipeRequirement(
                     method = method,
+                    outputQuantity = outputQuantity,
                     skills = parseSkillRequirements(params, method),
                     items = items
                 )
             }
         }
         .filterNotNull()
+        .also { recipes ->
+            WikiLog.log.debug("Accepted {} recipe method(s) for '{}'", recipes.size, targetName)
+        }
 }
 
 private fun parseSkillRequirements(params: Map<String, String>, method: String): List<SkillRequirement> {

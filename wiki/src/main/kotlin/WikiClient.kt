@@ -18,7 +18,8 @@ internal class WikiClient {
         ?: 250L
     private var lastRequestAtMillis = 0L
 
-    fun fetchPage(title: String): WikiPage {
+    fun fetchPage(title: String): WikiPage? {
+        WikiLog.log.debug("Fetching wiki page '{}'", title)
         val url = "https://oldschool.runescape.wiki/api.php".toHttpUrl().newBuilder()
             .addQueryParameter("action", "query")
             .addQueryParameter("prop", "revisions")
@@ -37,6 +38,7 @@ internal class WikiClient {
 
         waitForRateLimit()
         client.newCall(request).execute().use { response ->
+            WikiLog.log.debug("Received wiki response for '{}' with HTTP {}", title, response.code)
             if (!response.isSuccessful) {
                 error("Wiki request failed for '$title': HTTP ${response.code}")
             }
@@ -47,7 +49,8 @@ internal class WikiClient {
             val page = pages.firstOrNull()?.asJsonObject ?: error("Wiki page not found: $title")
 
             if (page.has("missing")) {
-                error("Wiki page is missing: $title")
+                WikiLog.log.warn("Wiki page is missing: '{}'; skipping it", title)
+                return null
             }
 
             val actualTitle = page.get("title").asString
@@ -59,6 +62,7 @@ internal class WikiClient {
                 .get("content")
                 .asString
 
+            WikiLog.log.debug("Parsed wiki page '{}' ({} wikitext characters)", actualTitle, content.length)
             return WikiPage(actualTitle, content)
         }
     }
@@ -72,6 +76,7 @@ internal class WikiClient {
         val now = System.currentTimeMillis()
         val elapsed = now - lastRequestAtMillis
         if (lastRequestAtMillis != 0L && elapsed < requestDelayMillis) {
+            WikiLog.log.debug("Rate limiting wiki request for {} ms", requestDelayMillis - elapsed)
             Thread.sleep(requestDelayMillis - elapsed)
         }
         lastRequestAtMillis = System.currentTimeMillis()

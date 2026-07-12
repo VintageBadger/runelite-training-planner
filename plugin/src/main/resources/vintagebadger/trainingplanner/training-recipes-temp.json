@@ -1,0 +1,4784 @@
+{
+  "version": 2,
+  "recipes": [
+    {
+      "id": 113,
+      "name": "Strength potion(4)",
+      "methods": [
+        {
+          "methodKey": "apothecary-64f3d2cbd4e6",
+          "method": "Apothecary",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 225,
+              "name": "Limpwurt root",
+              "quantity": 1
+            },
+            {
+              "id": 223,
+              "name": "Red spiders' eggs",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3008,
+      "name": "Energy potion(4)",
+      "methods": [
+        {
+          "methodKey": "apothecary-869527cb8268",
+          "method": "Apothecary",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 225,
+              "name": "Limpwurt root",
+              "quantity": 2
+            },
+            {
+              "id": 1975,
+              "name": "Chocolate dust",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1975,
+      "name": "Chocolate dust",
+      "methods": [
+        {
+          "methodKey": "pestle-and-mortar-9ee455669687",
+          "method": "Pestle and mortar",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1973,
+              "name": "Chocolate bar",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "knife-75b3fd4744f3",
+          "method": "Knife",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1973,
+              "name": "Chocolate bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12695,
+      "name": "Super combat potion(4)",
+      "methods": [
+        {
+          "methodKey": "herblore-9d2443154f75",
+          "method": "Herblore",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Herblore",
+              "level": 90,
+              "xp": 150.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2436,
+              "name": "Super attack(4)",
+              "quantity": 1
+            },
+            {
+              "id": 2442,
+              "name": "Super defence(4)",
+              "quantity": 1
+            },
+            {
+              "id": 2440,
+              "name": "Super strength(4)",
+              "quantity": 1
+            },
+            {
+              "id": 269,
+              "name": "Torstol",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "herblore-1fb946ba44e5",
+          "method": "Herblore",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Herblore",
+              "level": 90,
+              "xp": 150.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2436,
+              "name": "Super attack(4)",
+              "quantity": 1
+            },
+            {
+              "id": 2442,
+              "name": "Super defence(4)",
+              "quantity": 1
+            },
+            {
+              "id": 2440,
+              "name": "Super strength(4)",
+              "quantity": 1
+            },
+            {
+              "id": 111,
+              "name": "Torstol potion (unf)",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 269,
+      "name": "Torstol",
+      "methods": [
+        {
+          "methodKey": "herblore-b4293094e323",
+          "method": "Herblore",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Herblore",
+              "level": 75,
+              "xp": 15.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 219,
+              "name": "Grimy torstol",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "degrime-4cc2bfbae751",
+          "method": "Degrime",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 70,
+              "xp": 83.0
+            },
+            {
+              "skill": "Herblore",
+              "level": 75,
+              "xp": 7.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 219,
+              "name": "Grimy torstol",
+              "quantity": 1
+            },
+            {
+              "id": 557,
+              "name": "Earth rune",
+              "quantity": 4
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "name": "Torstol potion (unf)",
+      "methods": [
+        {
+          "methodKey": "herblore-81840a2e416d",
+          "method": "Herblore",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Herblore",
+              "level": 78,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 269,
+              "name": "Torstol",
+              "quantity": 1
+            },
+            {
+              "id": 227,
+              "name": "Vial of water",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 227,
+      "name": "Vial of water",
+      "methods": [
+        {
+          "methodKey": "water-73fa931ce3cb",
+          "method": "Water",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 229,
+              "name": "Vial",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 229,
+      "name": "Vial",
+      "methods": [
+        {
+          "methodKey": "glassblowing-pipe-0a8cd2d4c0e2",
+          "method": "Glassblowing pipe",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 33,
+              "xp": 35.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1775,
+              "name": "Molten glass",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1775,
+      "name": "Molten glass",
+      "methods": [
+        {
+          "methodKey": "normal-furnace-19ad83149077",
+          "method": "Normal furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 20.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1783,
+              "name": "Bucket of sand",
+              "quantity": 1
+            },
+            {
+              "id": 1781,
+              "name": "Soda ash",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "superglass-make-giant-seaweed-b21b4c064855",
+          "method": "Superglass Make - giant seaweed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 61,
+              "xp": 180.0
+            },
+            {
+              "skill": "Magic",
+              "level": 77,
+              "xp": 78.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1783,
+              "name": "Bucket of sand",
+              "quantity": 18
+            },
+            {
+              "id": 21504,
+              "name": "Giant seaweed",
+              "quantity": 3
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 6
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "methodKey": "superglass-make-seaweed-146d8025ca76",
+          "method": "Superglass Make - seaweed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 61,
+              "xp": 130.0
+            },
+            {
+              "skill": "Magic",
+              "level": 77,
+              "xp": 78.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1783,
+              "name": "Bucket of sand",
+              "quantity": 13
+            },
+            {
+              "id": 401,
+              "name": "Seaweed",
+              "quantity": 13
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 6
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "methodKey": "superglass-make-soda-ash-8b9cf9e9436d",
+          "method": "Superglass Make - soda ash",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 61,
+              "xp": 130.0
+            },
+            {
+              "skill": "Magic",
+              "level": 77,
+              "xp": 78.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1783,
+              "name": "Bucket of sand",
+              "quantity": 13
+            },
+            {
+              "id": 1781,
+              "name": "Soda ash",
+              "quantity": 13
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 6
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "methodKey": "superglass-make-swamp-weed-760d2ae285dd",
+          "method": "Superglass Make - swamp weed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 61,
+              "xp": 130.0
+            },
+            {
+              "skill": "Magic",
+              "level": 77,
+              "xp": 78.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1783,
+              "name": "Bucket of sand",
+              "quantity": 13
+            },
+            {
+              "id": 10978,
+              "name": "Swamp weed",
+              "quantity": 13
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 6
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1783,
+      "name": "Bucket of sand",
+      "methods": [
+        {
+          "methodKey": "sandpit-c035bb682498",
+          "method": "Sandpit",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1925,
+              "name": "Bucket",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "sandstorm-6f37d69e89f4",
+          "method": "Sandstorm",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 6971,
+              "name": "Sandstone (1kg)",
+              "quantity": 1
+            },
+            {
+              "id": 1925,
+              "name": "Bucket",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 50
+            }
+          ]
+        },
+        {
+          "methodKey": "sandstorm-a1369d8f251f",
+          "method": "Sandstorm",
+          "outputQuantity": 2,
+          "skills": [],
+          "requires": [
+            {
+              "id": 6973,
+              "name": "Sandstone (2kg)",
+              "quantity": 1
+            },
+            {
+              "id": 1925,
+              "name": "Bucket",
+              "quantity": 2
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "sandstorm-d83363a4fd59",
+          "method": "Sandstorm",
+          "outputQuantity": 4,
+          "skills": [],
+          "requires": [
+            {
+              "id": 6975,
+              "name": "Sandstone (5kg)",
+              "quantity": 1
+            },
+            {
+              "id": 1925,
+              "name": "Bucket",
+              "quantity": 4
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 200
+            }
+          ]
+        },
+        {
+          "methodKey": "sandstorm-6df5224cd3c0",
+          "method": "Sandstorm",
+          "outputQuantity": 8,
+          "skills": [],
+          "requires": [
+            {
+              "id": 6977,
+              "name": "Sandstone (10kg)",
+              "quantity": 1
+            },
+            {
+              "id": 1925,
+              "name": "Bucket",
+              "quantity": 8
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 400
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1781,
+      "name": "Soda ash",
+      "methods": [
+        {
+          "methodKey": "seaweed-251a2e838ffd",
+          "method": "Seaweed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 1,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 401,
+              "name": "Seaweed",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "giant-seaweed-e38242f90b04",
+          "method": "Giant seaweed",
+          "outputQuantity": 6,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 1,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 21504,
+              "name": "Giant seaweed",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "swamp-weed-5a8c5bb840a7",
+          "method": "Swamp weed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 1,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 10978,
+              "name": "Swamp weed",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "edible-seaweed-0f0d47c08074",
+          "method": "Edible seaweed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 1,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 403,
+              "name": "Edible seaweed",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1059,
+      "name": "Leather gloves",
+      "methods": [
+        {
+          "methodKey": "needle-dc3acb993631",
+          "method": "Needle",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 13.8
+            }
+          ],
+          "requires": [
+            {
+              "id": 1741,
+              "name": "Leather",
+              "quantity": 1
+            },
+            {
+              "id": 1734,
+              "name": "Thread",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "costume-needle-31d68ffaccaf",
+          "method": "Costume needle",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 13.8
+            }
+          ],
+          "requires": [
+            {
+              "id": 1741,
+              "name": "Leather",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1741,
+      "name": "Leather",
+      "methods": [
+        {
+          "methodKey": "normal-tanner-0d8a7221d387",
+          "method": "Normal tanner",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1739,
+              "name": "Cowhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "sbott-5118c7890e8f",
+          "method": "Sbott",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1739,
+              "name": "Cowhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-47ad62bcaa19",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1739,
+              "name": "Cowhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 10
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-c7e40e18527c",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1739,
+              "name": "Cowhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 8
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-582a8da846d1",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1739,
+              "name": "Cowhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 6
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-cdff19dee5af",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1739,
+              "name": "Cowhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 4
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-563d73475b64",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1739,
+              "name": "Cowhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 2
+            }
+          ]
+        },
+        {
+          "methodKey": "tan-leather-spell-8226ab1f48e5",
+          "method": "Tan leather spell",
+          "outputQuantity": 5,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 78,
+              "xp": 81.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1739,
+              "name": "Cowhide",
+              "quantity": 5
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1692,
+      "name": "Gold amulet",
+      "methods": [
+        {
+          "methodKey": "crafting-f5d9376e2349",
+          "method": "Crafting",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 0,
+              "xp": 4.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1673,
+              "name": "Gold amulet (u)",
+              "quantity": 1
+            },
+            {
+              "id": 1759,
+              "name": "Ball of wool",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "string-jewellery-913fb60d46f8",
+          "method": "String Jewellery",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 80,
+              "xp": 83.0
+            },
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 4.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1673,
+              "name": "Gold amulet (u)",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 5
+            },
+            {
+              "id": 557,
+              "name": "Earth rune",
+              "quantity": 10
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1673,
+      "name": "Gold amulet (u)",
+      "methods": [
+        {
+          "methodKey": "furnace-983b2954948c",
+          "method": "Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 8,
+              "xp": 30.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2357,
+              "name": "Gold bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2357,
+      "name": "Gold bar",
+      "methods": [
+        {
+          "methodKey": "regular-furnace-b68eca846d90",
+          "method": "Regular furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 40,
+              "xp": 22.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 444,
+              "name": "Gold ore",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "blast-furnace-0d6d20c291f8",
+          "method": "Blast Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 40,
+              "xp": 22.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 444,
+              "name": "Gold ore",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "superheat-ac468524c4ec",
+          "method": "Superheat",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 40,
+              "xp": 22.5
+            },
+            {
+              "skill": "Magic",
+              "level": 43,
+              "xp": 53.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 444,
+              "name": "Gold ore",
+              "quantity": 1
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1759,
+      "name": "Ball of wool",
+      "methods": [
+        {
+          "methodKey": "spinning-wheel-04a4d70cb071",
+          "method": "Spinning wheel",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 2.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 1737,
+              "name": "Wool",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1718,
+      "name": "Holy symbol",
+      "methods": [
+        {
+          "methodKey": "holy-book-book-of-balance-68002fd3fe30",
+          "method": "Holy book, Book of balance",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Prayer",
+              "level": 50,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1716,
+              "name": "Unblessed symbol",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "brother-jered-9eefb3e25a93",
+          "method": "Brother Jered",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Prayer",
+              "level": 31,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1716,
+              "name": "Unblessed symbol",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1716,
+      "name": "Unblessed symbol",
+      "methods": [
+        {
+          "methodKey": "crafting-fb560923afca",
+          "method": "Crafting",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 4.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1714,
+              "name": "Unstrung symbol",
+              "quantity": 1
+            },
+            {
+              "id": 1759,
+              "name": "Ball of wool",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "string-jewellery-eaa658d91add",
+          "method": "String Jewellery",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 80,
+              "xp": 83.0
+            },
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 4.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1714,
+              "name": "Unstrung symbol",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 5
+            },
+            {
+              "id": 557,
+              "name": "Earth rune",
+              "quantity": 10
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1714,
+      "name": "Unstrung symbol",
+      "methods": [
+        {
+          "methodKey": "furnace-715d221deac6",
+          "method": "Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 16,
+              "xp": 50.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2355,
+              "name": "Silver bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5525,
+      "name": "Tiara",
+      "methods": [
+        {
+          "methodKey": "furnace-b2a95d7502da",
+          "method": "Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 23,
+              "xp": 52.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 2355,
+              "name": "Silver bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1696,
+      "name": "Emerald amulet",
+      "methods": [
+        {
+          "methodKey": "crafting-d42f2bfa80f7",
+          "method": "Crafting",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 0,
+              "xp": 4.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1677,
+              "name": "Emerald amulet (u)",
+              "quantity": 1
+            },
+            {
+              "id": 1759,
+              "name": "Ball of wool",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "string-jewellery-342abb775dec",
+          "method": "String Jewellery",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 80,
+              "xp": 83.0
+            },
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 4.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1677,
+              "name": "Emerald amulet (u)",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 5
+            },
+            {
+              "id": 557,
+              "name": "Earth rune",
+              "quantity": 10
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1677,
+      "name": "Emerald amulet (u)",
+      "methods": [
+        {
+          "methodKey": "furnace-789d6cdc7ca4",
+          "method": "Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 31,
+              "xp": 70.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1605,
+              "name": "Emerald",
+              "quantity": 1
+            },
+            {
+              "id": 2357,
+              "name": "Gold bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1605,
+      "name": "Emerald",
+      "methods": [
+        {
+          "methodKey": "chisel-78f5e703c6e6",
+          "method": "Chisel",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 27,
+              "xp": 67.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 1621,
+              "name": "Uncut emerald",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 567,
+      "name": "Unpowered orb",
+      "methods": [
+        {
+          "methodKey": "glassblowing-pipe-6c4b077a9065",
+          "method": "Glassblowing pipe",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 46,
+              "xp": 52.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 1775,
+              "name": "Molten glass",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1395,
+      "name": "Water battlestaff",
+      "methods": [
+        {
+          "methodKey": "crafting-2d0da8e201dc",
+          "method": "Crafting",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 54,
+              "xp": 100.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 571,
+              "name": "Water orb",
+              "quantity": 1
+            },
+            {
+              "id": 1391,
+              "name": "Battlestaff",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-d4058ba1260d",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1397,
+              "name": "Air battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-df277812a4ce",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1399,
+              "name": "Earth battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-41edc1d192f2",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1393,
+              "name": "Fire battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 571,
+      "name": "Water orb",
+      "methods": [
+        {
+          "methodKey": "obelisk-of-water-c1de67be6f87",
+          "method": "Obelisk of Water",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 56,
+              "xp": 66.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 567,
+              "name": "Unpowered orb",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 30
+            },
+            {
+              "id": 564,
+              "name": "Cosmic rune",
+              "quantity": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1391,
+      "name": "Battlestaff",
+      "methods": [
+        {
+          "methodKey": "knife-b491e042a2ec",
+          "method": "Knife",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 40,
+              "xp": 80.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 22935,
+              "name": "Celastrus bark",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1397,
+      "name": "Air battlestaff",
+      "methods": [
+        {
+          "methodKey": "crafting-9cf3f1aac798",
+          "method": "Crafting",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 66,
+              "xp": 137.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 573,
+              "name": "Air orb",
+              "quantity": 1
+            },
+            {
+              "id": 1391,
+              "name": "Battlestaff",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-a02d8be115f4",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1399,
+              "name": "Earth battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-904425287d7a",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1393,
+              "name": "Fire battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-657a0ea9dac6",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1395,
+              "name": "Water battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 573,
+      "name": "Air orb",
+      "methods": [
+        {
+          "methodKey": "obelisk-of-air-e58e3d522c14",
+          "method": "Obelisk of Air",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 66,
+              "xp": 76.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 567,
+              "name": "Unpowered orb",
+              "quantity": 1
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 30
+            },
+            {
+              "id": 564,
+              "name": "Cosmic rune",
+              "quantity": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1399,
+      "name": "Earth battlestaff",
+      "methods": [
+        {
+          "methodKey": "crafting-90c8fb0f1482",
+          "method": "Crafting",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 58,
+              "xp": 112.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 575,
+              "name": "Earth orb",
+              "quantity": 1
+            },
+            {
+              "id": 1391,
+              "name": "Battlestaff",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-8b4f6e6a237d",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1397,
+              "name": "Air battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 557,
+              "name": "Earth rune",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-b2c87f6f34e4",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1393,
+              "name": "Fire battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 557,
+              "name": "Earth rune",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-7108bf9abd66",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1395,
+              "name": "Water battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 557,
+              "name": "Earth rune",
+              "quantity": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 575,
+      "name": "Earth orb",
+      "methods": [
+        {
+          "methodKey": "obelisk-of-earth-d328e7836a84",
+          "method": "Obelisk of Earth",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 60,
+              "xp": 70.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 567,
+              "name": "Unpowered orb",
+              "quantity": 1
+            },
+            {
+              "id": 557,
+              "name": "Earth rune",
+              "quantity": 30
+            },
+            {
+              "id": 564,
+              "name": "Cosmic rune",
+              "quantity": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1393,
+      "name": "Fire battlestaff",
+      "methods": [
+        {
+          "methodKey": "crafting-97ea776a6156",
+          "method": "Crafting",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 62,
+              "xp": 125.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 569,
+              "name": "Fire orb",
+              "quantity": 1
+            },
+            {
+              "id": 1391,
+              "name": "Battlestaff",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-8ec55c8ba1a0",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1397,
+              "name": "Air battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-3f438ec9066e",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1399,
+              "name": "Earth battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 100
+            }
+          ]
+        },
+        {
+          "methodKey": "crystal-ball-space-5b2ca80460e1",
+          "method": "Crystal ball space",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1395,
+              "name": "Water battlestaff",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 569,
+      "name": "Fire orb",
+      "methods": [
+        {
+          "methodKey": "obelisk-of-fire-0d80f99644a1",
+          "method": "Obelisk of Fire",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 63,
+              "xp": 73.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 567,
+              "name": "Unpowered orb",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 30
+            },
+            {
+              "id": 564,
+              "name": "Cosmic rune",
+              "quantity": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1135,
+      "name": "Green d'hide body",
+      "methods": [
+        {
+          "methodKey": "needle-afd65e317606",
+          "method": "Needle",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 63,
+              "xp": 186.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1745,
+              "name": "Green dragon leather",
+              "quantity": 3
+            },
+            {
+              "id": 1734,
+              "name": "Thread",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "costume-needle-0cdaa071d86d",
+          "method": "Costume needle",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 63,
+              "xp": 186.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1745,
+              "name": "Green dragon leather",
+              "quantity": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1745,
+      "name": "Green dragon leather",
+      "methods": [
+        {
+          "methodKey": "normal-tanner-25aa77917b29",
+          "method": "Normal tanner",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1753,
+              "name": "Green dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 20
+            }
+          ]
+        },
+        {
+          "methodKey": "sbott-8266dc756713",
+          "method": "Sbott",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1753,
+              "name": "Green dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 45
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-9ed2aa087a2f",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1753,
+              "name": "Green dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 200
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-f91d41c4259e",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1753,
+              "name": "Green dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 160
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-47f574941b2d",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1753,
+              "name": "Green dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 120
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-696378d93302",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1753,
+              "name": "Green dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 80
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-f028a21cb52a",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1753,
+              "name": "Green dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 40
+            }
+          ]
+        },
+        {
+          "methodKey": "tan-leather-spell-1ffba66741e2",
+          "method": "Tan Leather spell",
+          "outputQuantity": 5,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 78,
+              "xp": 81.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1753,
+              "name": "Green dragonhide",
+              "quantity": 5
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2499,
+      "name": "Blue d'hide body",
+      "methods": [
+        {
+          "methodKey": "needle-568306fe21b3",
+          "method": "Needle",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 71,
+              "xp": 210.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2505,
+              "name": "Blue dragon leather",
+              "quantity": 3
+            },
+            {
+              "id": 1734,
+              "name": "Thread",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "costume-needle-b54ab10bc574",
+          "method": "Costume needle",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 71,
+              "xp": 210.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2505,
+              "name": "Blue dragon leather",
+              "quantity": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2505,
+      "name": "Blue dragon leather",
+      "methods": [
+        {
+          "methodKey": "normal-tanner-affe2c62976e",
+          "method": "Normal tanner",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1751,
+              "name": "Blue dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 20
+            }
+          ]
+        },
+        {
+          "methodKey": "sbott-026251dd573a",
+          "method": "Sbott",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1751,
+              "name": "Blue dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 45
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-ea6b5550da47",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1751,
+              "name": "Blue dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 200
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-292063989b93",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1751,
+              "name": "Blue dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 160
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-f23b1af34a3a",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1751,
+              "name": "Blue dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 120
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-07fcfbf919e8",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1751,
+              "name": "Blue dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 80
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-70cf1c23386f",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1751,
+              "name": "Blue dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 40
+            }
+          ]
+        },
+        {
+          "methodKey": "tan-leather-spell-5337499df794",
+          "method": "Tan Leather spell",
+          "outputQuantity": 5,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 78,
+              "xp": 81.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1751,
+              "name": "Blue dragonhide",
+              "quantity": 5
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2503,
+      "name": "Black d'hide body",
+      "methods": [
+        {
+          "methodKey": "needle-b9f31f6b6d2c",
+          "method": "Needle",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 84,
+              "xp": 258.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2509,
+              "name": "Black dragon leather",
+              "quantity": 3
+            },
+            {
+              "id": 1734,
+              "name": "Thread",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "costume-needle-c968b6def872",
+          "method": "Costume needle",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 84,
+              "xp": 258.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2509,
+              "name": "Black dragon leather",
+              "quantity": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2509,
+      "name": "Black dragon leather",
+      "methods": [
+        {
+          "methodKey": "normal-tanner-29aff0bcc5d2",
+          "method": "Normal tanner",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1747,
+              "name": "Black dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 20
+            }
+          ]
+        },
+        {
+          "methodKey": "sbott-a1939ff10186",
+          "method": "Sbott",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1747,
+              "name": "Black dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 45
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-433514c0043b",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1747,
+              "name": "Black dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 200
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-3ccaad031163",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1747,
+              "name": "Black dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 160
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-5fb4b18933a6",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1747,
+              "name": "Black dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 120
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-c7420ceb229f",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1747,
+              "name": "Black dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 80
+            }
+          ]
+        },
+        {
+          "methodKey": "eodan-45f4441ab3e8",
+          "method": "Eodan",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1747,
+              "name": "Black dragonhide",
+              "quantity": 1
+            },
+            {
+              "id": 995,
+              "name": "Coins",
+              "quantity": 40
+            }
+          ]
+        },
+        {
+          "methodKey": "tan-leather-spell-6a5a2afc54d8",
+          "method": "Tan Leather spell",
+          "outputQuantity": 5,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 78,
+              "xp": 81.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1747,
+              "name": "Black dragonhide",
+              "quantity": 5
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 2
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1205,
+      "name": "Bronze dagger",
+      "methods": [
+        {
+          "methodKey": "anvil-4fee562c721d",
+          "method": "Anvil",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 1,
+              "xp": 12.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 2349,
+              "name": "Bronze bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2349,
+      "name": "Bronze bar",
+      "methods": [
+        {
+          "methodKey": "normal-furnace-be36937696d6",
+          "method": "Normal furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 1,
+              "xp": 6.2
+            }
+          ],
+          "requires": [
+            {
+              "id": 436,
+              "name": "Copper ore",
+              "quantity": 1
+            },
+            {
+              "id": 438,
+              "name": "Tin ore",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "blast-furnace-367ee16f016b",
+          "method": "Blast Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 1,
+              "xp": 6.2
+            }
+          ],
+          "requires": [
+            {
+              "id": 436,
+              "name": "Copper ore",
+              "quantity": 1
+            },
+            {
+              "id": 438,
+              "name": "Tin ore",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "superheat-923956feafe3",
+          "method": "Superheat",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 1,
+              "xp": 6.2
+            },
+            {
+              "skill": "Magic",
+              "level": 43,
+              "xp": 53.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 436,
+              "name": "Copper ore",
+              "quantity": 1
+            },
+            {
+              "id": 438,
+              "name": "Tin ore",
+              "quantity": 1
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1117,
+      "name": "Bronze platebody",
+      "methods": [
+        {
+          "methodKey": "anvil-5c395aaa62d2",
+          "method": "Anvil",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 18,
+              "xp": 62.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 2349,
+              "name": "Bronze bar",
+              "quantity": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2353,
+      "name": "Steel bar",
+      "methods": [
+        {
+          "methodKey": "normal-furnace-d6aed62ba991",
+          "method": "Normal furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 30,
+              "xp": 17.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 440,
+              "name": "Iron ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 2
+            }
+          ]
+        },
+        {
+          "methodKey": "blast-furnace-6877a5e25ac3",
+          "method": "Blast Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 30,
+              "xp": 17.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 440,
+              "name": "Iron ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "catalysed-3d909cbe9ed3",
+          "method": "Catalysed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 30,
+              "xp": 35.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 440,
+              "name": "Iron ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 1
+            },
+            {
+              "id": 27017,
+              "name": "Smithing catalyst",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "superheat-0799039fe513",
+          "method": "Superheat",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 30,
+              "xp": 17.5
+            },
+            {
+              "skill": "Magic",
+              "level": 43,
+              "xp": 53.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 440,
+              "name": "Iron ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 2
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2359,
+      "name": "Mithril bar",
+      "methods": [
+        {
+          "methodKey": "normal-furnace-e450b02c4edb",
+          "method": "Normal furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 50,
+              "xp": 30.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 447,
+              "name": "Mithril ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 4
+            }
+          ]
+        },
+        {
+          "methodKey": "blast-furnace-37b76ee151ec",
+          "method": "Blast Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 50,
+              "xp": 30.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 447,
+              "name": "Mithril ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 2
+            }
+          ]
+        },
+        {
+          "methodKey": "catalysed-ec349199da26",
+          "method": "Catalysed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 50,
+              "xp": 60.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 447,
+              "name": "Mithril ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 2
+            },
+            {
+              "id": 27017,
+              "name": "Smithing catalyst",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "superheat-7c69e896af7d",
+          "method": "Superheat",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 50,
+              "xp": 30.0
+            },
+            {
+              "skill": "Magic",
+              "level": 43,
+              "xp": 53.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 447,
+              "name": "Mithril ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 4
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 822,
+      "name": "Mithril dart tip",
+      "methods": [
+        {
+          "methodKey": "anvil-1f20d6974282",
+          "method": "Anvil",
+          "outputQuantity": 10,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 54,
+              "xp": 50.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2359,
+              "name": "Mithril bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 823,
+      "name": "Adamant dart tip",
+      "methods": [
+        {
+          "methodKey": "anvil-161a8b4f888b",
+          "method": "Anvil",
+          "outputQuantity": 10,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 74,
+              "xp": 62.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 2361,
+              "name": "Adamantite bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2361,
+      "name": "Adamantite bar",
+      "methods": [
+        {
+          "methodKey": "normal-furnace-d5c5e3b1a0d6",
+          "method": "Normal furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 70,
+              "xp": 37.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 449,
+              "name": "Adamantite ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 6
+            }
+          ]
+        },
+        {
+          "methodKey": "blast-furnace-5bae6582d4ae",
+          "method": "Blast Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 70,
+              "xp": 37.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 449,
+              "name": "Adamantite ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 3
+            }
+          ]
+        },
+        {
+          "methodKey": "catalysed-f30927397276",
+          "method": "Catalysed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 70,
+              "xp": 75.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 449,
+              "name": "Adamantite ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 3
+            },
+            {
+              "id": 27017,
+              "name": "Smithing catalyst",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "superheat-5c8b95b16602",
+          "method": "Superheat",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 70,
+              "xp": 37.5
+            },
+            {
+              "skill": "Magic",
+              "level": 43,
+              "xp": 53.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 449,
+              "name": "Adamantite ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 6
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2363,
+      "name": "Runite bar",
+      "methods": [
+        {
+          "methodKey": "normal-furnace-c562ef8ed077",
+          "method": "Normal furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 85,
+              "xp": 50.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 451,
+              "name": "Runite ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 8
+            }
+          ]
+        },
+        {
+          "methodKey": "blast-furnace-b836c6fad413",
+          "method": "Blast Furnace",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 85,
+              "xp": 50.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 451,
+              "name": "Runite ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 4
+            }
+          ]
+        },
+        {
+          "methodKey": "catalysed-2c739ac12f85",
+          "method": "Catalysed",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 85,
+              "xp": 100.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 451,
+              "name": "Runite ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 4
+            },
+            {
+              "id": 27017,
+              "name": "Smithing catalyst",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "superheat-cf4b839348e9",
+          "method": "Superheat",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 85,
+              "xp": 50.0
+            },
+            {
+              "skill": "Magic",
+              "level": 43,
+              "xp": 53.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 451,
+              "name": "Runite ore",
+              "quantity": 1
+            },
+            {
+              "id": 453,
+              "name": "Coal",
+              "quantity": 8
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1127,
+      "name": "Rune platebody",
+      "methods": [
+        {
+          "methodKey": "anvil-baf9d5c54a52",
+          "method": "Anvil",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 99,
+              "xp": 375.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2363,
+              "name": "Runite bar",
+              "quantity": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "name": "Headless arrow",
+      "methods": [
+        {
+          "methodKey": "fletching-0189f4f2cb5a",
+          "method": "Fletching",
+          "outputQuantity": 15,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 1,
+              "xp": 15.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 52,
+              "name": "Arrow shaft",
+              "quantity": 15
+            },
+            {
+              "id": 314,
+              "name": "Feather",
+              "quantity": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "name": "Arrow shaft",
+      "methods": [
+        {
+          "methodKey": "knife-93ef46917bce",
+          "method": "Knife",
+          "outputQuantity": 15,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 1,
+              "xp": 5.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1511,
+              "name": "Logs",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "knife-1eb8fd7dd72a",
+          "method": "Knife",
+          "outputQuantity": 30,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 15,
+              "xp": 10.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1521,
+              "name": "Oak logs",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "knife-8f9147c15360",
+          "method": "Knife",
+          "outputQuantity": 45,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 30,
+              "xp": 15.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1519,
+              "name": "Willow logs",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "knife-6929b622ac50",
+          "method": "Knife",
+          "outputQuantity": 60,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 45,
+              "xp": 20.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1517,
+              "name": "Maple logs",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "knife-2efb981b2796",
+          "method": "Knife",
+          "outputQuantity": 75,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 60,
+              "xp": 25.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1515,
+              "name": "Yew logs",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "knife-389d1b916fba",
+          "method": "Knife",
+          "outputQuantity": 90,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 75,
+              "xp": 30.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1513,
+              "name": "Magic logs",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "knife-a13996d40018",
+          "method": "Knife",
+          "outputQuantity": 105,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 90,
+              "xp": 35.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 19669,
+              "name": "Redwood logs",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 806,
+      "name": "Bronze dart",
+      "methods": [
+        {
+          "methodKey": "fletching-a5b38e3b7a99",
+          "method": "Fletching",
+          "outputQuantity": 10,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 10,
+              "xp": 18.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 819,
+              "name": "Bronze dart tip",
+              "quantity": 10
+            },
+            {
+              "id": 314,
+              "name": "Feather",
+              "quantity": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 819,
+      "name": "Bronze dart tip",
+      "methods": [
+        {
+          "methodKey": "anvil-9eb7745c71f9",
+          "method": "Anvil",
+          "outputQuantity": 10,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 4,
+              "xp": 12.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 2349,
+              "name": "Bronze bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 843,
+      "name": "Oak shortbow",
+      "methods": [
+        {
+          "methodKey": "fletching-cf414c2853b1",
+          "method": "Fletching",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 20,
+              "xp": 16.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 54,
+              "name": "Oak shortbow (u)",
+              "quantity": 1
+            },
+            {
+              "id": 1777,
+              "name": "Bow string",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "name": "Oak shortbow (u)",
+      "methods": [
+        {
+          "methodKey": "knife-53e607e8e1e8",
+          "method": "Knife",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 20,
+              "xp": 16.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 1521,
+              "name": "Oak logs",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1777,
+      "name": "Bow string",
+      "methods": [
+        {
+          "methodKey": "spinning-wheel-d087eb0c82b6",
+          "method": "Spinning wheel",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 10,
+              "xp": 15.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1779,
+              "name": "Flax",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "spin-flax-240eeaf56ffa",
+          "method": "Spin Flax",
+          "outputQuantity": 5,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 76,
+              "xp": 75.0
+            },
+            {
+              "skill": "Crafting",
+              "level": 61,
+              "xp": 75.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1779,
+              "name": "Flax",
+              "quantity": 5
+            },
+            {
+              "id": 561,
+              "name": "Nature rune",
+              "quantity": 2
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 1
+            },
+            {
+              "id": 556,
+              "name": "Air rune",
+              "quantity": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 886,
+      "name": "Steel arrow",
+      "methods": [
+        {
+          "methodKey": "fletching-caa56ec2c6f6",
+          "method": "Fletching",
+          "outputQuantity": 15,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 30,
+              "xp": 75.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 53,
+              "name": "Headless arrow",
+              "quantity": 15
+            },
+            {
+              "id": 41,
+              "name": "Steel arrowtips",
+              "quantity": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "name": "Steel arrowtips",
+      "methods": [
+        {
+          "methodKey": "anvil-f90c9b83c77f",
+          "method": "Anvil",
+          "outputQuantity": 15,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 35,
+              "xp": 37.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 2353,
+              "name": "Steel bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 853,
+      "name": "Maple shortbow",
+      "methods": [
+        {
+          "methodKey": "fletching-a51fcab1eb2e",
+          "method": "Fletching",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 50,
+              "xp": 50.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 64,
+              "name": "Maple shortbow (u)",
+              "quantity": 1
+            },
+            {
+              "id": 1777,
+              "name": "Bow string",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "name": "Maple shortbow (u)",
+      "methods": [
+        {
+          "methodKey": "knife-0ef57fceeee6",
+          "method": "Knife",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 50,
+              "xp": 50.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1517,
+              "name": "Maple logs",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 890,
+      "name": "Adamant arrow",
+      "methods": [
+        {
+          "methodKey": "fletching-547da29bb31d",
+          "method": "Fletching",
+          "outputQuantity": 15,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 60,
+              "xp": 150.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 53,
+              "name": "Headless arrow",
+              "quantity": 15
+            },
+            {
+              "id": 43,
+              "name": "Adamant arrowtips",
+              "quantity": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "name": "Adamant arrowtips",
+      "methods": [
+        {
+          "methodKey": "anvil-cf1b5dc78313",
+          "method": "Anvil",
+          "outputQuantity": 15,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 75,
+              "xp": 62.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 2361,
+              "name": "Adamantite bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 810,
+      "name": "Adamant dart",
+      "methods": [
+        {
+          "methodKey": "fletching-a2edabd4c9aa",
+          "method": "Fletching",
+          "outputQuantity": 10,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 67,
+              "xp": 150.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 823,
+              "name": "Adamant dart tip",
+              "quantity": 10
+            },
+            {
+              "id": 314,
+              "name": "Feather",
+              "quantity": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 811,
+      "name": "Rune dart",
+      "methods": [
+        {
+          "methodKey": "fletching-15d083b20801",
+          "method": "Fletching",
+          "outputQuantity": 10,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 81,
+              "xp": 188.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 824,
+              "name": "Rune dart tip",
+              "quantity": 10
+            },
+            {
+              "id": 314,
+              "name": "Feather",
+              "quantity": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 824,
+      "name": "Rune dart tip",
+      "methods": [
+        {
+          "methodKey": "anvil-dbe61ee25445",
+          "method": "Anvil",
+          "outputQuantity": 10,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 89,
+              "xp": 75.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2363,
+              "name": "Runite bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 22266,
+      "name": "Redwood shield",
+      "methods": [
+        {
+          "methodKey": "knife-e2eef5afdc17",
+          "method": "Knife",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Fletching",
+              "level": 92,
+              "xp": 216.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 19669,
+              "name": "Redwood logs",
+              "quantity": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 315,
+      "name": "Shrimps",
+      "methods": [
+        {
+          "methodKey": "cooking-range-828a1b5656f9",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 1,
+              "xp": 30.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 317,
+              "name": "Raw shrimps",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 355,
+      "name": "Mackerel",
+      "methods": [
+        {
+          "methodKey": "cooking-range-9c073a98c6a1",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 10,
+              "xp": 60.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 353,
+              "name": "Raw mackerel",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 351,
+      "name": "Pike",
+      "methods": [
+        {
+          "methodKey": "cooking-range-7eab97eac110",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 20,
+              "xp": 80.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 349,
+              "name": "Raw pike",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3144,
+      "name": "Cooked karambwan",
+      "methods": [
+        {
+          "methodKey": "cooking-range-719d2bbf0aaa",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 30,
+              "xp": 190.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 3142,
+              "name": "Raw karambwan",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1993,
+      "name": "Jug of wine",
+      "methods": [
+        {
+          "methodKey": "cooking-f86d75a3cd2a",
+          "method": "Cooking",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 35,
+              "xp": 200.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1987,
+              "name": "Grapes",
+              "quantity": 1
+            },
+            {
+              "id": 1937,
+              "name": "Jug of water",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "fountain-wine-a433f5d8c891",
+          "method": "Fountain (wine)",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1935,
+              "name": "Jug",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1937,
+      "name": "Jug of water",
+      "methods": [
+        {
+          "methodKey": "water-b929508e3b54",
+          "method": "Water",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1935,
+              "name": "Jug",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 379,
+      "name": "Lobster",
+      "methods": [
+        {
+          "methodKey": "cooking-range-9f512d6b8757",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 40,
+              "xp": 120.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 377,
+              "name": "Raw lobster",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 373,
+      "name": "Swordfish",
+      "methods": [
+        {
+          "methodKey": "cooking-range-15acd689a3c4",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 45,
+              "xp": 140.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 371,
+              "name": "Raw swordfish",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7060,
+      "name": "Tuna potato",
+      "methods": [
+        {
+          "methodKey": "cooking-7467bb1775ca",
+          "method": "Cooking",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 68,
+              "xp": 10.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 7068,
+              "name": "Tuna and corn",
+              "quantity": 1
+            },
+            {
+              "id": 6703,
+              "name": "Potato with butter",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7068,
+      "name": "Tuna and corn",
+      "methods": [
+        {
+          "methodKey": "knife-3fd1cfb7c959",
+          "method": "Knife",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 67,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 7088,
+              "name": "Sweetcorn",
+              "quantity": 1
+            },
+            {
+              "id": 361,
+              "name": "Tuna",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "cooking-577303b05b17",
+          "method": "Cooking",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 67,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 7088,
+              "name": "Sweetcorn",
+              "quantity": 1
+            },
+            {
+              "id": 7086,
+              "name": "Chopped tuna",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "cooking-6020d1f8eaea",
+          "method": "Cooking",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 67,
+              "xp": 0.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 5988,
+              "name": "Cooked sweetcorn",
+              "quantity": 1
+            },
+            {
+              "id": 7086,
+              "name": "Chopped tuna",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 361,
+      "name": "Tuna",
+      "methods": [
+        {
+          "methodKey": "cooking-range-9f06f23bf0b7",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 30,
+              "xp": 100.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 359,
+              "name": "Raw tuna",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7086,
+      "name": "Chopped tuna",
+      "methods": [
+        {
+          "methodKey": "knife-23c721f30aba",
+          "method": "Knife",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1923,
+              "name": "Bowl",
+              "quantity": 1
+            },
+            {
+              "id": 361,
+              "name": "Tuna",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1923,
+      "name": "Bowl",
+      "methods": [
+        {
+          "methodKey": "pottery-oven-77a726904c2c",
+          "method": "Pottery Oven",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 1,
+              "xp": 15.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1791,
+              "name": "Unfired bowl",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1791,
+      "name": "Unfired bowl",
+      "methods": [
+        {
+          "methodKey": "potter-s-wheel-79a5287d4e35",
+          "method": "Potter's Wheel",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Crafting",
+              "level": 8,
+              "xp": 18.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1761,
+              "name": "Soft clay",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1761,
+      "name": "Soft clay",
+      "methods": [
+        {
+          "methodKey": "bucket-e92700a966b9",
+          "method": "Bucket",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 434,
+              "name": "Clay",
+              "quantity": 1
+            },
+            {
+              "id": 1929,
+              "name": "Bucket of water",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "bowl-8018b8f56be3",
+          "method": "Bowl",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 434,
+              "name": "Clay",
+              "quantity": 1
+            },
+            {
+              "id": 1921,
+              "name": "Bowl of water",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "jug-cb73893b2aa7",
+          "method": "Jug",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 434,
+              "name": "Clay",
+              "quantity": 1
+            },
+            {
+              "id": 1937,
+              "name": "Jug of water",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "vial-aa0cb2572473",
+          "method": "Vial",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 434,
+              "name": "Clay",
+              "quantity": 1
+            },
+            {
+              "id": 227,
+              "name": "Vial of water",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "humidify-75679524c1a0",
+          "method": "Humidify",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 68,
+              "xp": 65.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 434,
+              "name": "Clay",
+              "quantity": 1
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 3
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "humidify-inventory-7186d17e09a0",
+          "method": "Humidify inventory",
+          "outputQuantity": 27,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 68,
+              "xp": 65.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 434,
+              "name": "Clay",
+              "quantity": 27
+            },
+            {
+              "id": 554,
+              "name": "Fire rune",
+              "quantity": 1
+            },
+            {
+              "id": 555,
+              "name": "Water rune",
+              "quantity": 3
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "humidify-inventory-4f4a01bbced0",
+          "method": "Humidify inventory",
+          "outputQuantity": 27,
+          "skills": [
+            {
+              "skill": "Magic",
+              "level": 68,
+              "xp": 65.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 434,
+              "name": "Clay",
+              "quantity": 27
+            },
+            {
+              "id": 9075,
+              "name": "Astral rune",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1929,
+      "name": "Bucket of water",
+      "methods": [
+        {
+          "methodKey": "water-d3e9c79e07c1",
+          "method": "Water",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1925,
+              "name": "Bucket",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1921,
+      "name": "Bowl of water",
+      "methods": [
+        {
+          "methodKey": "water-c45ca558e9c2",
+          "method": "Water",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1923,
+              "name": "Bowl",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5988,
+      "name": "Cooked sweetcorn",
+      "methods": [
+        {
+          "methodKey": "cooking-range-5ada39e85110",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 28,
+              "xp": 104.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 5986,
+              "name": "Sweetcorn",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6703,
+      "name": "Potato with butter",
+      "methods": [
+        {
+          "methodKey": "cooking-6460c30a8d41",
+          "method": "Cooking",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 39,
+              "xp": 40.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 6701,
+              "name": "Baked potato",
+              "quantity": 1
+            },
+            {
+              "id": 6697,
+              "name": "Pat of butter",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "cooking-0085a3c523b7",
+          "method": "Cooking",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 39,
+              "xp": 40.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 6701,
+              "name": "Baked potato",
+              "quantity": 1
+            },
+            {
+              "id": 24788,
+              "name": "Pat of not garlic butter",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6701,
+      "name": "Baked potato",
+      "methods": [
+        {
+          "methodKey": "cooking-range-697cfd597ad7",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 7,
+              "xp": 15.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1942,
+              "name": "Potato",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6697,
+      "name": "Pat of butter",
+      "methods": [
+        {
+          "methodKey": "dairy-churn-912bec076c4c",
+          "method": "Dairy churn",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 38,
+              "xp": 40.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 1927,
+              "name": "Bucket of milk",
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "methodKey": "dairy-churn-e7a9d67f6512",
+          "method": "Dairy churn",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 38,
+              "xp": 22.5
+            }
+          ],
+          "requires": [
+            {
+              "id": 2130,
+              "name": "Pot of cream",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1927,
+      "name": "Bucket of milk",
+      "methods": [
+        {
+          "methodKey": "dairy-cow-fa6d1259bc13",
+          "method": "Dairy cow",
+          "outputQuantity": 1,
+          "skills": [],
+          "requires": [
+            {
+              "id": 1925,
+              "name": "Bucket",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2130,
+      "name": "Pot of cream",
+      "methods": [
+        {
+          "methodKey": "dairy-churn-9060ebecb335",
+          "method": "Dairy churn",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 21,
+              "xp": 18.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 1927,
+              "name": "Bucket of milk",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 13441,
+      "name": "Anglerfish",
+      "methods": [
+        {
+          "methodKey": "cooking-range-d30af7e8e5d6",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 84,
+              "xp": 230.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 13439,
+              "name": "Raw anglerfish",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 391,
+      "name": "Manta ray",
+      "methods": [
+        {
+          "methodKey": "cooking-range-de4aa280f8c6",
+          "method": "Cooking range",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Cooking",
+              "level": 91,
+              "xp": 216.3
+            }
+          ],
+          "requires": [
+            {
+              "id": 389,
+              "name": "Raw manta ray",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1213,
+      "name": "Rune dagger",
+      "methods": [
+        {
+          "methodKey": "anvil-45199c6bf072",
+          "method": "Anvil",
+          "outputQuantity": 1,
+          "skills": [
+            {
+              "skill": "Smithing",
+              "level": 85,
+              "xp": 75.0
+            }
+          ],
+          "requires": [
+            {
+              "id": 2363,
+              "name": "Runite bar",
+              "quantity": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
